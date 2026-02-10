@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine's Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #140911;
+  --card: #1e1018;
+  --card-border: #3a1f2e;
+  --rose: #e8506a;
+  --rose-soft: #d4728a;
+  --blush: #f5c6d0;
+  --gold: #d4a574;
+  --cream: #f5e6d3;
+  --cream-dim: #a89585;
+  --wine: #8b2252;
+  --deep: #4a1030;
+  --green: #6bbd7b;
+  --yellow: #e8c84a;
+  --gray: #3a3040;
+  --gray-light: #5a4a55;
+  --lavender: #c4a0d4;
+  --peach: #f0a882;
+  --sky: #7eb8d4;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Text', Georgia, serif;
+  background: var(--bg);
+  color: var(--cream);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Background texture */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(139,34,82,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(212,165,116,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(232,80,106,0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════ HEADER ═══════════ */
+header {
+  text-align: center;
+  padding: 48px 0 32px;
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: 40px;
+}
+
+header .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  margin-bottom: 8px;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+header .date {
+  font-size: 15px;
+  color: var(--cream-dim);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.heart-divider {
+  text-align: center;
+  margin: 12px 0;
+  color: var(--rose);
+  font-size: 18px;
+  opacity: 0.6;
+}
+
+/* ═══════════ PROGRESS BAR ═══════════ */
+.progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(20,9,17,0.95);
+  backdrop-filter: blur(12px);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--card-border);
+  margin: 0 -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.progress-inner {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+  background: var(--card);
+}
+
+.progress-dot.complete {
+  border-color: var(--rose);
+  background: var(--rose);
+  color: white;
+  box-shadow: 0 0 12px rgba(232,80,106,0.4);
+}
+
+.progress-dot .icon { font-size: 16px; }
+.progress-line {
+  width: 24px; height: 2px;
+  background: var(--card-border);
+  transition: background 0.4s;
+}
+.progress-line.active { background: var(--rose); }
+
+/* ═══════════ GAME SECTIONS ═══════════ */
+.game-section {
+  margin-bottom: 56px;
+  animation: fadeInUp 0.6s ease both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.game-card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.game-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.game-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.game-subtitle {
+  font-size: 14px;
+  color: var(--cream-dim);
+  margin-top: 2px;
+}
+
+/* ═══════════ THE MINI ═══════════ */
+#mini .game-card::before { background: linear-gradient(90deg, var(--rose), var(--gold)); }
+#mini .game-icon { background: linear-gradient(135deg, var(--rose), #c94060); color: white; }
+
+.mini-poem {
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--rose-soft);
+  margin: 16px 0 24px;
+  padding: 16px;
+  border-left: 2px solid var(--wine);
+  background: rgba(139,34,82,0.08);
+  border-radius: 0 8px 8px 0;
+}
+
+.mini-clues {
+  margin-bottom: 20px;
+}
+
+.mini-clue {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--cream);
+  display: flex;
+  gap: 8px;
+}
+
+.mini-clue .direction {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 60px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.crossword-grid {
+  display: inline-grid;
+  grid-template-columns: repeat(4, 48px);
+  grid-template-rows: repeat(4, 48px);
+  gap: 2px;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.crossword-wrap { text-align: center; }
+
+.cw-cell {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 22px;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-radius: 4px;
+  position: relative;
+}
+
+.cw-cell.black {
+  background: transparent;
+}
+
+.cw-cell.active {
+  background: var(--gray);
+  border: 2px solid var(--gray-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cw-cell.active:hover, .cw-cell.active.selected {
+  border-color: var(--rose);
+  box-shadow: 0 0 8px rgba(232,80,106,0.3);
+}
+
+.cw-cell.active.correct {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+
+.cw-cell.active.keyword {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--bg);
+}
+
+.cw-cell .cell-num {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  font-size: 9px;
+  color: var(--cream-dim);
+  font-weight: 400;
+}
+
+.cw-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ═══════════ CONNECTIONS ═══════════ */
+#connections .game-card::before { background: linear-gradient(90deg, var(--lavender), var(--rose)); }
+#connections .game-icon { background: linear-gradient(135deg, var(--lavender), #a07cc0); color: white; }
+
+.conn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.conn-tile {
+  background: var(--gray);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  user-select: none;
+}
+
+.conn-tile:hover:not(.matched) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.conn-tile.selected {
+  border-color: var(--rose);
+  background: rgba(232,80,106,0.2);
+  transform: scale(1.03);
+}
+
+.conn-tile.matched {
+  cursor: default;
+  color: white;
+  animation: matchPop 0.4s ease;
+}
+
+@keyframes matchPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.conn-tile.matched.cat-0 { background: var(--gold); color: var(--bg); }
+.conn-tile.matched.cat-1 { background: var(--green); color: var(--bg); }
+.conn-tile.matched.cat-2 { background: var(--sky); color: var(--bg); }
+.conn-tile.matched.cat-3 { background: var(--lavender); color: var(--bg); }
+
+.conn-result {
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  animation: fadeInUp 0.3s ease;
+}
+
+.conn-mistakes {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--cream-dim);
+}
+
+.conn-mistakes .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--rose);
+  margin: 0 3px;
+  transition: opacity 0.3s;
+}
+
+.conn-mistakes .dot.used { opacity: 0.2; }
+
+.conn-btn {
+  display: block;
+  margin: 16px auto 0;
+  padding: 10px 28px;
+  border: 2px solid var(--rose);
+  background: transparent;
+  color: var(--rose);
+  font-family: 'Crimson Text', serif;
+  font-size: 16px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.conn-btn:hover { background: var(--rose); color: white; }
+.conn-btn:disabled { opacity: 0.3; cursor: default; }
+
+/* ═══════════ WORDLE ═══════════ */
+#wordle .game-card::before { background: linear-gradient(90deg, var(--green), var(--yellow)); }
+#wordle .game-icon { background: linear-gradient(135deg, var(--green), #4a9a5a); color: white; }
+
+.wordle-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 20px 0;
+}
+
+.wordle-row {
+  display: flex;
+  gap: 6px;
+}
+
+.wordle-cell {
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--gray-light);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 24px;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.wordle-cell.filled {
+  border-color: var(--cream-dim);
+  animation: popIn 0.1s ease;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.wordle-cell.correct { background: var(--green); border-color: var(--green); color: white; }
+.wordle-cell.present { background: var(--yellow); border-color: var(--yellow); color: var(--bg); }
+.wordle-cell.absent { background: var(--gray); border-color: var(--gray); color: var(--cream-dim); }
+
+.wordle-cell.reveal {
+  animation: flipIn 0.5s ease;
+}
+
+@keyframes flipIn {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.kb-row {
+  display: flex;
+  gap: 4px;
+}
+
+.kb-key {
+  min-width: 32px;
+  height: 44px;
+  border: none;
+  border-radius: 6px;
+  background: var(--gray);
+  color: var(--cream);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  padding: 0 8px;
+}
+
+.kb-key:hover { background: var(--gray-light); }
+.kb-key.wide { min-width: 52px; font-size: 12px; }
+.kb-key.correct { background: var(--green); color: white; }
+.kb-key.present { background: var(--yellow); color: var(--bg); }
+.kb-key.absent { background: #2a2030; color: #555; }
+
+/* ═══════════ STRANDS ═══════════ */
+#strands .game-card::before { background: linear-gradient(90deg, var(--peach), var(--gold)); }
+#strands .game-icon { background: linear-gradient(135deg, var(--peach), #d4825a); color: white; }
+
+.strands-theme {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--gold);
+  margin: 12px 0 4px;
+}
+
+.strands-hint {
+  text-align: center;
+  font-size: 13px;
+  color: var(--cream-dim);
+  margin-bottom: 16px;
+}
+
+.strands-found {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+  min-height: 32px;
+}
+
+.strands-word-tag {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  animation: fadeInUp 0.3s ease;
+}
+
+.strands-word-tag.found { background: var(--rose); color: white; }
+.strands-word-tag.unfound { background: var(--gray); color: var(--cream-dim); }
+
+.strands-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 46px);
+  gap: 4px;
+  margin: 0 auto;
+  width: fit-content;
+  user-select: none;
+  touch-action: none;
+}
+
+.sg-cell {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  background: var(--gray);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  touch-action: none;
+}
+
+.sg-cell:hover:not(.found) {
+  background: var(--gray-light);
+}
+
+.sg-cell.selecting {
+  background: rgba(232,80,106,0.3);
+  border: 2px solid var(--rose);
+  box-shadow: 0 0 8px rgba(232,80,106,0.3);
+}
+
+.sg-cell.found {
+  background: var(--rose);
+  color: white;
+  cursor: default;
+}
+
+.sg-cell.found.keyword {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+.strands-grid-wrap { text-align: center; margin: 0 auto; width: fit-content; }
+
+.strands-submit {
+  display: block;
+  margin: 16px auto 0;
+  padding: 8px 24px;
+  border: 2px solid var(--rose);
+  background: transparent;
+  color: var(--rose);
+  font-family: 'Crimson Text', serif;
+  font-size: 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.strands-submit:hover { background: var(--rose); color: white; }
+
+.strands-clear {
+  display: block;
+  margin: 8px auto 0;
+  padding: 6px 20px;
+  border: 1px solid var(--gray-light);
+  background: transparent;
+  color: var(--cream-dim);
+  font-family: 'Crimson Text', serif;
+  font-size: 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.strands-clear:hover { border-color: var(--cream-dim); color: var(--cream); }
+
+/* ═══════════ SECRET PHRASE ═══════════ */
+#secret {
+  margin-bottom: 80px;
+}
+
+#secret .game-card::before { background: linear-gradient(90deg, var(--gold), var(--rose), var(--lavender)); }
+
+.secret-locked {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--cream-dim);
+  font-style: italic;
+}
+
+.secret-locked .lock-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+
+.secret-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.secret-word {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.secret-word.mini-word { background: rgba(232,80,106,0.2); color: var(--rose); border: 1px solid var(--rose); }
+.secret-word.conn-word { background: rgba(196,160,212,0.2); color: var(--lavender); border: 1px solid var(--lavender); }
+.secret-word.wordle-word { background: rgba(107,189,123,0.2); color: var(--green); border: 1px solid var(--green); }
+.secret-word.strands-word { background: rgba(240,168,130,0.2); color: var(--peach); border: 1px solid var(--peach); }
+
+.secret-input-wrap {
+  position: relative;
+  margin: 20px 0;
+}
+
+.secret-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--gray);
+  border: 2px solid var(--gray-light);
+  border-radius: 10px;
+  color: var(--cream);
+  font-family: 'Crimson Text', serif;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 0.03em;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.secret-input:focus { border-color: var(--gold); }
+.secret-input::placeholder { color: var(--cream-dim); opacity: 0.5; }
+
+.secret-submit {
+  display: block;
+  margin: 12px auto 0;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  border: none;
+  border-radius: 24px;
+  color: white;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 16px rgba(232,80,106,0.3);
+}
+
+.secret-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(232,80,106,0.5);
+}
+
+.secret-error {
+  text-align: center;
+  color: var(--rose);
+  font-size: 14px;
+  margin-top: 8px;
+  min-height: 20px;
+}
+
+/* ═══════════ SUCCESS OVERLAY ═══════════ */
+.success-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20,9,17,0.95);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.success-overlay.visible { display: flex; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.success-content {
+  text-align: center;
+  padding: 40px;
+  animation: scaleIn 0.6s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.success-hearts {
+  font-size: 48px;
+  margin-bottom: 16px;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--rose), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.success-phrase {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-style: italic;
+  color: var(--blush);
+  margin-bottom: 24px;
+}
+
+.success-message {
+  font-size: 16px;
+  color: var(--cream-dim);
+  max-width: 320px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.success-close {
+  margin-top: 24px;
+  padding: 10px 28px;
+  border: 2px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  font-family: 'Crimson Text', serif;
+  font-size: 16px;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.success-close:hover { background: var(--gold); color: var(--bg); }
+
+/* ═══════════ COMPLETED BANNER ═══════════ */
+.game-complete-banner {
+  display: none;
+  text-align: center;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 10px;
+  background: rgba(107,189,123,0.12);
+  border: 1px solid rgba(107,189,123,0.3);
+}
+
+.game-complete-banner.visible { display: block; animation: fadeInUp 0.4s ease; }
+
+.game-complete-banner .banner-text {
+  font-size: 15px;
+  color: var(--green);
+  font-weight: 600;
+}
+
+.game-complete-banner .keyword {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* ═══════════ TOAST ═══════════ */
+.toast {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 200;
+  background: var(--cream);
+  color: var(--bg);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 1.5s forwards;
+  pointer-events: none;
+}
+
+@keyframes toastIn { from { transform: translateX(-50%) translateY(-20px); opacity: 0; } }
+@keyframes toastOut { to { transform: translateX(-50%) translateY(-20px); opacity: 0; } }
+
+/* ═══════════ SHAKE ═══════════ */
+.shake {
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media (max-width: 400px) {
+  .crossword-grid { grid-template-columns: repeat(4, 42px); grid-template-rows: repeat(4, 42px); }
+  .cw-cell { width: 42px; height: 42px; font-size: 20px; }
+  .wordle-cell { width: 46px; height: 46px; font-size: 22px; }
+  .sg-cell { width: 40px; height: 40px; font-size: 16px; }
+  .strands-grid { grid-template-columns: repeat(6, 40px); }
+  .kb-key { min-width: 28px; height: 40px; font-size: 12px; }
+}
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Valentine's Edition</div>
+    <h1>Valentine's Games</h1>
+    <div class="date">Tuesday, 14 February</div>
+    <div class="heart-divider">♥ ♥ ♥</div>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar">
+    <div class="progress-inner">
+      <div class="progress-dot" id="prog-mini" onclick="scrollToGame('mini')">
+        <span class="icon">✎</span>
+      </div>
+      <div class="progress-line" id="line-1"></div>
+      <div class="progress-dot" id="prog-conn" onclick="scrollToGame('connections')">
+        <span class="icon">⊞</span>
+      </div>
+      <div class="progress-line" id="line-2"></div>
+      <div class="progress-dot" id="prog-wordle" onclick="scrollToGame('wordle')">
+        <span class="icon">W</span>
+      </div>
+      <div class="progress-line" id="line-3"></div>
+      <div class="progress-dot" id="prog-strands" onclick="scrollToGame('strands')">
+        <span class="icon">∿</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ GAME 1: THE MINI ═══════════ -->
+  <section class="game-section" id="mini">
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-icon">✎</div>
+        <div>
+          <div class="game-title">The Mini</div>
+          <div class="game-subtitle">A crossword for lovers</div>
+        </div>
+      </div>
+
+      <div class="mini-poem">
+        it comes every morning<br>
+        sharp as new breaths, sharp as a fine point<br>
+        needling me up from bottom to top<br>
+        so that i can now hold all of it,<br>
+        as endless as it is,<br>
+        your love in me,<br>
+        bulging at the seams
+      </div>
+
+      <div class="mini-clues">
+        <div class="mini-clue"><span class="direction">Across 1</span> "___ amour" — my love, in French</div>
+        <div class="mini-clue"><span class="direction">Across 3</span> Greek god of desire; Cupid's counterpart</div>
+        <div class="mini-clue"><span class="direction">Down 1</span> Belonging to us both</div>
+      </div>
+
+      <div class="crossword-wrap">
+        <div class="crossword-grid" id="cw-grid"></div>
+      </div>
+
+      <input class="cw-input" id="cw-input" maxlength="1" autocomplete="off" autocapitalize="characters">
+
+      <div class="game-complete-banner" id="mini-complete">
+        <div class="banner-text">✓ Mini Complete!</div>
+        <div class="keyword">MON</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ GAME 2: CONNECTIONS ═══════════ -->
+  <section class="game-section" id="connections">
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-icon">⊞</div>
+        <div>
+          <div class="game-title">Connections</div>
+          <div class="game-subtitle">Find the four pairs that belong together</div>
+        </div>
+      </div>
+
+      <div id="conn-results"></div>
+
+      <div class="conn-grid" id="conn-grid"></div>
+
+      <div class="conn-mistakes">
+        Mistakes remaining:
+        <span class="dot" id="dot-0"></span>
+        <span class="dot" id="dot-1"></span>
+        <span class="dot" id="dot-2"></span>
+        <span class="dot" id="dot-3"></span>
+      </div>
+
+      <button class="conn-btn" id="conn-submit" onclick="connSubmit()" disabled>Submit Pair</button>
+
+      <div class="game-complete-banner" id="conn-complete">
+        <div class="banner-text">✓ Connections Complete!</div>
+        <div class="keyword">PRETTY</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ GAME 3: WORDLE ═══════════ -->
+  <section class="game-section" id="wordle">
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-icon">W</div>
+        <div>
+          <div class="game-title">Wordle</div>
+          <div class="game-subtitle">Guess the five-letter word of love</div>
+        </div>
+      </div>
+
+      <div class="wordle-board" id="wordle-board"></div>
+
+      <div class="keyboard" id="keyboard"></div>
+
+      <div class="game-complete-banner" id="wordle-complete">
+        <div class="banner-text">✓ Wordle Complete!</div>
+        <div class="keyword">AMOUR</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ GAME 4: STRANDS ═══════════ -->
+  <section class="game-section" id="strands">
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-icon">∿</div>
+        <div>
+          <div class="game-title">Strands</div>
+          <div class="game-subtitle">Trace hidden words in the grid</div>
+        </div>
+      </div>
+
+      <div class="strands-theme">"Matters of the Heart"</div>
+      <div class="strands-hint">Find 6 words. Select adjacent letters to spell each word.</div>
+
+      <div class="strands-found" id="strands-found"></div>
+
+      <div class="strands-grid-wrap">
+        <div class="strands-grid" id="strands-grid"></div>
+      </div>
+
+      <button class="strands-submit" id="strands-submit-btn" onclick="strandsSubmit()">Submit Word</button>
+      <button class="strands-clear" onclick="strandsClear()">Clear Selection</button>
+
+      <div class="game-complete-banner" id="strands-complete">
+        <div class="banner-text">✓ Strands Complete!</div>
+        <div class="keyword">SMITTEN</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SECRET PHRASE ═══════════ -->
+  <section class="game-section" id="secret">
+    <div class="game-card">
+      <div class="game-header">
+        <div class="game-icon" style="background: linear-gradient(135deg, var(--gold), var(--rose)); color: white;">♥</div>
+        <div>
+          <div class="game-title">The Secret Phrase</div>
+          <div class="game-subtitle">Assemble the words. Unlock the message.</div>
+        </div>
+      </div>
+
+      <div class="secret-locked" id="secret-locked">
+        <div class="lock-icon">🔒</div>
+        <p>Complete all four games to unlock the secret phrase.</p>
+      </div>
+
+      <div id="secret-unlocked" class="hidden">
+        <p style="text-align:center; font-size:15px; color:var(--cream-dim); margin-bottom:12px;">
+          Each game revealed a word. Arrange them into a phrase:
+        </p>
+        <div class="secret-words" id="secret-words"></div>
+        <div class="secret-input-wrap">
+          <input class="secret-input" id="secret-input" placeholder="Type the secret phrase..." autocomplete="off">
+        </div>
+        <button class="secret-submit" onclick="checkSecret()">Reveal</button>
+        <div class="secret-error" id="secret-error"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-content">
+    <div class="success-hearts">💕</div>
+    <div class="success-title">Pretty Smitten,<br>Mon Amour</div>
+    <div class="success-phrase">~ a Valentine's invitation ~</div>
+    <div class="success-message">
+      You solved all four games and unlocked the secret phrase.<br><br>
+      The invitation awaits you...
+    </div>
+    <button class="success-close" onclick="document.getElementById('success-overlay').classList.remove('visible')">Close</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const gameState = { mini: false, connections: false, wordle: false, strands: false };
+
+function markComplete(game) {
+  gameState[game] = true;
+  updateProgress();
+  checkAllComplete();
+}
+
+function updateProgress() {
+  const ids = ['mini','conn','wordle','strands'];
+  const keys = ['mini','connections','wordle','strands'];
+  ids.forEach((id, i) => {
+    const dot = document.getElementById('prog-' + id);
+    if (gameState[keys[i]]) {
+      dot.classList.add('complete');
+      dot.innerHTML = '<span class="icon">✓</span>';
+    }
+  });
+  if (gameState.mini) document.getElementById('line-1').classList.add('active');
+  if (gameState.connections) document.getElementById('line-2').classList.add('active');
+  if (gameState.wordle) document.getElementById('line-3').classList.add('active');
+}
+
+function checkAllComplete() {
+  if (gameState.mini && gameState.connections && gameState.wordle && gameState.strands) {
+    document.getElementById('secret-locked').classList.add('hidden');
+    const unlocked = document.getElementById('secret-unlocked');
+    unlocked.classList.remove('hidden');
+    // Show keyword tokens
+    const words = [
+      { text: 'MON', cls: 'mini-word' },
+      { text: 'PRETTY', cls: 'conn-word' },
+      { text: 'AMOUR', cls: 'wordle-word' },
+      { text: 'SMITTEN', cls: 'strands-word' }
+    ];
+    // Shuffle for display
+    const shuffled = words.sort(() => Math.random() - 0.5);
+    const container = document.getElementById('secret-words');
+    container.innerHTML = '';
+    shuffled.forEach(w => {
+      const span = document.createElement('span');
+      span.className = 'secret-word ' + w.cls;
+      span.textContent = w.text;
+      container.appendChild(span);
+    });
+    setTimeout(() => {
+      document.getElementById('secret').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 600);
+  }
+}
+
+function scrollToGame(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+// ═══════════════════════════════════════════════
+// GAME 1: THE MINI CROSSWORD
+// ═══════════════════════════════════════════════
+const CW_GRID = [
+  // row 0: M O N .
+  // row 1: . U . .
+  // row 2: E R O S
+  // row 3: . S . .
+  // Grid definition: null = black, string = answer letter
+  ['M','O','N',null],
+  [null,'U',null,null],
+  ['E','R','O','S'],
+  [null,'S',null,null]
+];
+
+const CW_NUMS = { '0,0': 1, '0,1': 2, '2,0': 3, '2,1': null, '2,2': null, '2,3': null };
+// clue numbers: 1=MON across, 2=OURS down start, 3=EROS across
+// Actually: cell (0,0)=1 for across, cell (0,1)=2 for down start
+// Let me simplify: number cells that start words
+// Across 1 starts at (0,0): MON
+// Down 2 starts at (0,1): OURS (O-U-R-S going down col 1)
+// Across 3 starts at (2,0): EROS
+
+const CW_CELL_NUMS = {};
+CW_CELL_NUMS['0-0'] = '1';
+CW_CELL_NUMS['0-1'] = '2';
+CW_CELL_NUMS['2-0'] = '3';
+
+const CW_KEYWORD_CELLS = ['0-0','0-1','0-2']; // MON
+
+let cwSelected = null;
+let cwValues = {};
+
+function initMini() {
+  const grid = document.getElementById('cw-grid');
+  grid.innerHTML = '';
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      const cell = document.createElement('div');
+      const key = r + '-' + c;
+      cell.className = 'cw-cell';
+      cell.dataset.key = key;
+      
+      if (CW_GRID[r][c] === null) {
+        cell.classList.add('black');
+      } else {
+        cell.classList.add('active');
+        const num = CW_CELL_NUMS[key];
+        if (num) {
+          const numEl = document.createElement('span');
+          numEl.className = 'cell-num';
+          numEl.textContent = num;
+          cell.appendChild(numEl);
+        }
+        cell.addEventListener('click', () => selectCwCell(key));
+        cwValues[key] = '';
+      }
+      grid.appendChild(cell);
+    }
+  }
+
+  const input = document.getElementById('cw-input');
+  input.addEventListener('input', (e) => {
+    const val = e.target.value.toUpperCase();
+    if (val && cwSelected) {
+      cwValues[cwSelected] = val;
+      const cell = document.querySelector(`.cw-cell[data-key="${cwSelected}"]`);
+      updateCwCellDisplay(cell, cwSelected);
+      advanceCwCell();
+    }
+    input.value = '';
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && cwSelected) {
+      if (cwValues[cwSelected]) {
+        cwValues[cwSelected] = '';
+        const cell = document.querySelector(`.cw-cell[data-key="${cwSelected}"]`);
+        updateCwCellDisplay(cell, cwSelected);
+      } else {
+        retreatCwCell();
+      }
+      e.preventDefault();
+    }
+  });
+}
+
+function updateCwCellDisplay(cell, key) {
+  // Remove old letter span
+  const existing = cell.querySelector('.cw-letter');
+  if (existing) existing.remove();
+  
+  if (cwValues[key]) {
+    const span = document.createElement('span');
+    span.className = 'cw-letter';
+    span.textContent = cwValues[key];
+    cell.appendChild(span);
+  }
+}
+
+function selectCwCell(key) {
+  document.querySelectorAll('.cw-cell.selected').forEach(c => c.classList.remove('selected'));
+  cwSelected = key;
+  const cell = document.querySelector(`.cw-cell[data-key="${key}"]`);
+  cell.classList.add('selected');
+  document.getElementById('cw-input').focus();
+}
+
+function advanceCwCell() {
+  // Simple: move to next active cell in reading order
+  const keys = Object.keys(cwValues).sort();
+  const idx = keys.indexOf(cwSelected);
+  for (let i = idx + 1; i < keys.length; i++) {
+    if (!cwValues[keys[i]]) {
+      selectCwCell(keys[i]);
+      return;
+    }
+  }
+  // Check if complete
+  checkMiniComplete();
+}
+
+function retreatCwCell() {
+  const keys = Object.keys(cwValues).sort();
+  const idx = keys.indexOf(cwSelected);
+  if (idx > 0) {
+    selectCwCell(keys[idx - 1]);
+  }
+}
+
+function checkMiniComplete() {
+  let allCorrect = true;
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      if (CW_GRID[r][c] !== null) {
+        const key = r + '-' + c;
+        if (cwValues[key] !== CW_GRID[r][c]) {
+          allCorrect = false;
+        }
+      }
+    }
+  }
+  
+  if (allCorrect) {
+    // Mark all cells correct
+    document.querySelectorAll('.cw-cell.active').forEach(cell => {
+      cell.classList.add('correct');
+      cell.classList.remove('selected');
+    });
+    // Highlight keyword cells
+    setTimeout(() => {
+      CW_KEYWORD_CELLS.forEach(key => {
+        const cell = document.querySelector(`.cw-cell[data-key="${key}"]`);
+        cell.classList.remove('correct');
+        cell.classList.add('keyword');
+      });
+      document.getElementById('mini-complete').classList.add('visible');
+      markComplete('mini');
+    }, 500);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// GAME 2: CONNECTIONS
+// ═══════════════════════════════════════════════
+const CONN_PAIRS = [
+  { words: ['PRETTY', 'PETAL'], name: 'Sweet Nothings', cat: 0 },
+  { words: ['PITHY', 'REMARKS'], name: 'Sharp Tongued', cat: 1 },
+  { words: ['ENDLESS', 'ROMANCE'], name: 'Promises', cat: 2 },
+  { words: ['A HOME', 'FOR YOU'], name: 'Devotion', cat: 3 }
+];
+
+let connAllWords = [];
+let connSelected = [];
+let connMistakes = 0;
+let connMatched = new Set();
+const MAX_CONN_MISTAKES = 4;
+
+function initConnections() {
+  connAllWords = CONN_PAIRS.flatMap(p => p.words).sort(() => Math.random() - 0.5);
+  const grid = document.getElementById('conn-grid');
+  grid.innerHTML = '';
+  
+  connAllWords.forEach(word => {
+    const tile = document.createElement('div');
+    tile.className = 'conn-tile';
+    tile.textContent = word;
+    tile.dataset.word = word;
+    tile.addEventListener('click', () => toggleConnTile(tile, word));
+    grid.appendChild(tile);
+  });
+}
+
+function toggleConnTile(tile, word) {
+  if (connMatched.has(word)) return;
+  
+  if (tile.classList.contains('selected')) {
+    tile.classList.remove('selected');
+    connSelected = connSelected.filter(w => w !== word);
+  } else {
+    if (connSelected.length >= 2) return;
+    tile.classList.add('selected');
+    connSelected.push(word);
+  }
+  
+  document.getElementById('conn-submit').disabled = connSelected.length !== 2;
+}
+
+function connSubmit() {
+  if (connSelected.length !== 2) return;
+  
+  const [a, b] = connSelected;
+  const match = CONN_PAIRS.find(p => 
+    (p.words[0] === a && p.words[1] === b) || 
+    (p.words[0] === b && p.words[1] === a)
+  );
+  
+  if (match) {
+    // Correct match
+    match.words.forEach(w => {
+      connMatched.add(w);
+      const tile = document.querySelector(`.conn-tile[data-word="${w}"]`);
+      tile.classList.remove('selected');
+      tile.classList.add('matched', 'cat-' + match.cat);
+    });
+    
+    // Show result
+    const results = document.getElementById('conn-results');
+    const div = document.createElement('div');
+    div.className = 'conn-result';
+    div.style.background = `rgba(${match.cat === 0 ? '212,165,116' : match.cat === 1 ? '107,189,123' : match.cat === 2 ? '126,184,212' : '196,160,212'},0.15)`;
+    div.innerHTML = `<strong>${match.name}:</strong> ${match.words.join(' + ')}`;
+    results.appendChild(div);
+    
+    connSelected = [];
+    document.getElementById('conn-submit').disabled = true;
+    
+    // Check if all matched
+    if (connMatched.size === 8) {
+      setTimeout(() => {
+        document.getElementById('conn-complete').classList.add('visible');
+        markComplete('connections');
+      }, 500);
+    }
+  } else {
+    // Wrong
+    connMistakes++;
+    document.querySelectorAll('.conn-tile.selected').forEach(t => {
+      t.classList.add('shake');
+      setTimeout(() => t.classList.remove('shake', 'selected'), 500);
+    });
+    
+    for (let i = 0; i < connMistakes; i++) {
+      document.getElementById('dot-' + i).classList.add('used');
+    }
+    
+    connSelected = [];
+    document.getElementById('conn-submit').disabled = true;
+    
+    if (connMistakes >= MAX_CONN_MISTAKES) {
+      showToast('Out of guesses! Revealing pairs...');
+      setTimeout(() => revealAllConn(), 800);
+    }
+  }
+}
+
+function revealAllConn() {
+  CONN_PAIRS.forEach(pair => {
+    pair.words.forEach(w => {
+      if (!connMatched.has(w)) {
+        connMatched.add(w);
+        const tile = document.querySelector(`.conn-tile[data-word="${w}"]`);
+        tile.classList.add('matched', 'cat-' + pair.cat);
+        tile.classList.remove('selected');
+      }
+    });
+    const results = document.getElementById('conn-results');
+    if (!results.textContent.includes(pair.name)) {
+      const div = document.createElement('div');
+      div.className = 'conn-result';
+      div.innerHTML = `<strong>${pair.name}:</strong> ${pair.words.join(' + ')}`;
+      results.appendChild(div);
+    }
+  });
+  
+  setTimeout(() => {
+    document.getElementById('conn-complete').classList.add('visible');
+    markComplete('connections');
+  }, 600);
+}
+
+// ═══════════════════════════════════════════════
+// GAME 3: WORDLE
+// ═══════════════════════════════════════════════
+const WORDLE_ANSWER = 'AMOUR';
+const WORDLE_ROWS = 6;
+const WORDLE_COLS = 5;
+
+let wordleRow = 0;
+let wordleCol = 0;
+let wordleGuesses = [];
+let wordleGameOver = false;
+let wordleBoard = [];
+const keyStates = {};
+
+function initWordle() {
+  const board = document.getElementById('wordle-board');
+  board.innerHTML = '';
+  
+  for (let r = 0; r < WORDLE_ROWS; r++) {
+    wordleBoard[r] = [];
+    const row = document.createElement('div');
+    row.className = 'wordle-row';
+    for (let c = 0; c < WORDLE_COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'wordle-cell';
+      cell.id = `wc-${r}-${c}`;
+      row.appendChild(cell);
+      wordleBoard[r][c] = cell;
+    }
+    board.appendChild(row);
+  }
+  
+  // Keyboard
+  const kbLayout = [
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['ENTER','Z','X','C','V','B','N','M','⌫']
+  ];
+  
+  const kb = document.getElementById('keyboard');
+  kb.innerHTML = '';
+  
+  kbLayout.forEach(row => {
+    const rowEl = document.createElement('div');
+    rowEl.className = 'kb-row';
+    row.forEach(key => {
+      const btn = document.createElement('button');
+      btn.className = 'kb-key';
+      btn.textContent = key;
+      btn.dataset.key = key;
+      if (key === 'ENTER' || key === '⌫') btn.classList.add('wide');
+      btn.addEventListener('click', () => handleWordleKey(key));
+      rowEl.appendChild(btn);
+    });
+    kb.appendChild(rowEl);
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (wordleGameOver) return;
+    if (document.activeElement && document.activeElement.id === 'cw-input') return;
+    if (document.activeElement && document.activeElement.id === 'secret-input') return;
+    
+    if (e.key === 'Enter') handleWordleKey('ENTER');
+    else if (e.key === 'Backspace') handleWordleKey('⌫');
+    else if (/^[a-zA-Z]$/.test(e.key)) handleWordleKey(e.key.toUpperCase());
+  });
+}
+
+function handleWordleKey(key) {
+  if (wordleGameOver) return;
+  
+  if (key === '⌫') {
+    if (wordleCol > 0) {
+      wordleCol--;
+      wordleBoard[wordleRow][wordleCol].textContent = '';
+      wordleBoard[wordleRow][wordleCol].classList.remove('filled');
+    }
+  } else if (key === 'ENTER') {
+    if (wordleCol === WORDLE_COLS) {
+      submitWordleGuess();
+    } else {
+      showToast('Not enough letters');
+    }
+  } else if (wordleCol < WORDLE_COLS) {
+    wordleBoard[wordleRow][wordleCol].textContent = key;
+    wordleBoard[wordleRow][wordleCol].classList.add('filled');
+    wordleCol++;
+  }
+}
+
+function submitWordleGuess() {
+  const guess = [];
+  for (let c = 0; c < WORDLE_COLS; c++) {
+    guess.push(wordleBoard[wordleRow][c].textContent);
+  }
+  const guessStr = guess.join('');
+  
+  // Calculate colors
+  const answer = WORDLE_ANSWER.split('');
+  const result = Array(WORDLE_COLS).fill('absent');
+  const answerUsed = Array(WORDLE_COLS).fill(false);
+  
+  // First pass: correct positions
+  for (let i = 0; i < WORDLE_COLS; i++) {
+    if (guess[i] === answer[i]) {
+      result[i] = 'correct';
+      answerUsed[i] = true;
+    }
+  }
+  
+  // Second pass: present but wrong position
+  for (let i = 0; i < WORDLE_COLS; i++) {
+    if (result[i] === 'correct') continue;
+    for (let j = 0; j < WORDLE_COLS; j++) {
+      if (!answerUsed[j] && guess[i] === answer[j]) {
+        result[i] = 'present';
+        answerUsed[j] = true;
+        break;
+      }
+    }
+  }
+  
+  // Animate reveal
+  for (let i = 0; i < WORDLE_COLS; i++) {
+    const cell = wordleBoard[wordleRow][i];
+    const delay = i * 200;
+    setTimeout(() => {
+      cell.classList.add('reveal', result[i]);
+    }, delay);
+    
+    // Update keyboard
+    setTimeout(() => {
+      const letter = guess[i];
+      if (!keyStates[letter] || result[i] === 'correct' || 
+          (result[i] === 'present' && keyStates[letter] !== 'correct')) {
+        keyStates[letter] = result[i];
+        const kbKey = document.querySelector(`.kb-key[data-key="${letter}"]`);
+        if (kbKey) {
+          kbKey.className = 'kb-key' + (letter.length > 1 ? ' wide' : '');
+          kbKey.classList.add(result[i]);
+        }
+      }
+    }, delay + 200);
+  }
+  
+  const won = guessStr === WORDLE_ANSWER;
+  
+  setTimeout(() => {
+    if (won) {
+      wordleGameOver = true;
+      showToast('Magnifique! 💕');
+      setTimeout(() => {
+        document.getElementById('wordle-complete').classList.add('visible');
+        markComplete('wordle');
+      }, 500);
+    } else if (wordleRow >= WORDLE_ROWS - 1) {
+      wordleGameOver = true;
+      showToast('The word was AMOUR');
+      setTimeout(() => {
+        document.getElementById('wordle-complete').classList.add('visible');
+        markComplete('wordle');
+      }, 500);
+    } else {
+      wordleRow++;
+      wordleCol = 0;
+    }
+  }, WORDLE_COLS * 200 + 300);
+}
+
+// ═══════════════════════════════════════════════
+// GAME 4: STRANDS
+// ═══════════════════════════════════════════════
+const STRANDS_GRID = [
+  ['S','M','I','T','T','E'],
+  ['V','E','R','Y','L','N'],
+  ['W','I','T','H','O','D'],
+  ['A','M','I','N','G','S'],
+  ['Y','O','U','R','S','K'],
+  ['B','E','L','O','V','E']
+];
+
+const STRANDS_WORDS = {
+  'SMITTEN': [[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[1,5]],
+  'VERY':    [[1,0],[1,1],[1,2],[1,3]],
+  'WITH':    [[2,0],[2,1],[2,2],[2,3]],
+  'AM':      [[3,0],[3,1]],
+  'YOU':     [[4,0],[4,1],[4,2]],
+  'I':       [[3,2]]
+};
+
+const STRANDS_KEYWORD = 'SMITTEN';
+
+let strandsSelection = [];
+let strandsFound = new Set();
+let strandsCellFound = {};
+
+function initStrands() {
+  const grid = document.getElementById('strands-grid');
+  grid.innerHTML = '';
+  
+  for (let r = 0; r < 6; r++) {
+    for (let c = 0; c < 6; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'sg-cell';
+      cell.textContent = STRANDS_GRID[r][c];
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      cell.addEventListener('pointerdown', (e) => { e.preventDefault(); strandsStartSelect(r, c); });
+      cell.addEventListener('pointerenter', (e) => { if (e.buttons > 0 || strandsIsDragging) strandsAddToSelect(r, c); });
+      cell.addEventListener('pointerup', () => { strandsIsDragging = false; });
+      grid.appendChild(cell);
+    }
+  }
+  
+  document.addEventListener('pointerup', () => { strandsIsDragging = false; });
+  
+  updateStrandsFound();
+}
+
+let strandsIsDragging = false;
+
+function strandsStartSelect(r, c) {
+  if (strandsCellFound[r+'-'+c]) return;
+  strandsClear();
+  strandsIsDragging = true;
+  strandsAddToSelect(r, c);
+}
+
+function strandsAddToSelect(r, c) {
+  const key = r + '-' + c;
+  if (strandsCellFound[key]) return;
+  
+  // Check adjacency to last selected cell
+  if (strandsSelection.length > 0) {
+    const last = strandsSelection[strandsSelection.length - 1];
+    const dr = Math.abs(r - last[0]);
+    const dc = Math.abs(c - last[1]);
+    if (dr > 1 || dc > 1 || (dr === 0 && dc === 0)) return;
+    // Don't re-select
+    if (strandsSelection.some(s => s[0] === r && s[1] === c)) return;
+  }
+  
+  strandsSelection.push([r, c]);
+  const cell = document.querySelector(`.sg-cell[data-r="${r}"][data-c="${c}"]`);
+  cell.classList.add('selecting');
+}
+
+function strandsClear() {
+  strandsSelection = [];
+  document.querySelectorAll('.sg-cell.selecting').forEach(c => c.classList.remove('selecting'));
+}
+
+function strandsSubmit() {
+  if (strandsSelection.length === 0) return;
+  
+  const word = strandsSelection.map(([r,c]) => STRANDS_GRID[r][c]).join('');
+  
+  if (STRANDS_WORDS[word] && !strandsFound.has(word)) {
+    // Verify the selected cells match the expected cells for this word
+    const expected = STRANDS_WORDS[word];
+    const selectedSorted = strandsSelection.map(([r,c]) => r+','+c).sort().join('|');
+    const expectedSorted = expected.map(([r,c]) => r+','+c).sort().join('|');
+    
+    if (selectedSorted === expectedSorted) {
+      strandsFound.add(word);
+      
+      const isKeyword = word === STRANDS_KEYWORD;
+      strandsSelection.forEach(([r,c]) => {
+        strandsCellFound[r+'-'+c] = true;
+        const cell = document.querySelector(`.sg-cell[data-r="${r}"][data-c="${c}"]`);
+        cell.classList.remove('selecting');
+        cell.classList.add('found');
+        if (isKeyword) cell.classList.add('keyword');
+      });
+      
+      strandsSelection = [];
+      updateStrandsFound();
+      
+      if (strandsFound.size === Object.keys(STRANDS_WORDS).length) {
+        setTimeout(() => {
+          document.getElementById('strands-complete').classList.add('visible');
+          markComplete('strands');
+        }, 500);
+      }
+    } else {
+      // Word exists but wrong cells — give a hint
+      showToast('Right word, but try a different path!');
+      strandsClear();
+    }
+  } else if (strandsFound.has(word)) {
+    showToast('Already found!');
+    strandsClear();
+  } else {
+    showToast('Not a valid word');
+    document.querySelector('.strands-grid-wrap').classList.add('shake');
+    setTimeout(() => document.querySelector('.strands-grid-wrap').classList.remove('shake'), 500);
+    strandsClear();
+  }
+}
+
+function updateStrandsFound() {
+  const container = document.getElementById('strands-found');
+  container.innerHTML = '';
+  
+  const allWords = Object.keys(STRANDS_WORDS);
+  allWords.forEach(w => {
+    const tag = document.createElement('span');
+    tag.className = 'strands-word-tag ' + (strandsFound.has(w) ? 'found' : 'unfound');
+    tag.textContent = strandsFound.has(w) ? w : '?'.repeat(w.length);
+    container.appendChild(tag);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// SECRET PHRASE
+// ═══════════════════════════════════════════════
+const SECRET_ANSWER = 'PRETTY SMITTEN MON AMOUR';
+
+function checkSecret() {
+  const input = document.getElementById('secret-input').value.trim().toUpperCase();
+  
+  // Accept variations
+  const normalized = input.replace(/[,!.]/g, '').replace(/\s+/g, ' ').trim();
+  
+  if (normalized === SECRET_ANSWER) {
+    document.getElementById('success-overlay').classList.add('visible');
+  } else {
+    document.getElementById('secret-error').textContent = 'Not quite... try rearranging the words.';
+    document.querySelector('.secret-input-wrap').classList.add('shake');
+    setTimeout(() => {
+      document.querySelector('.secret-input-wrap').classList.remove('shake');
+    }, 500);
+    setTimeout(() => {
+      document.getElementById('secret-error').textContent = '';
+    }, 3000);
+  }
+}
+
+document.getElementById('secret-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') checkSecret();
+});
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+initMini();
+initConnections();
+initWordle();
+initStrands();
+</script>
+</body>
+</html>
