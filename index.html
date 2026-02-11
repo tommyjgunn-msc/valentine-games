@@ -4,466 +4,292 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Valentine's | Games</title>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#121214;--bg2:#1a1a1e;--bg3:#222226;
-  --text:#e8e6e3;--text2:#a09c97;--text3:#6b6660;
-  --border:#2a2a2e;--border2:#3a3a3e;
-  --blue:#5ca4e8;--blue2:#4a8fd0;
-  --purple:#b8a9d4;--purple2:#9a88bb;
-  --green-w:#6aaa64;--yellow-w:#c9b458;--gray-w:#3a3a3c;
-  --green:#6bbd7b;--mint:#7ec9b1;--mint2:#5eae96;
-  --pink:#e87ea0;--rose:#e8506a;
-  --gold:#d4a574;--yellow:#e8c84a;
-  --card-radius:14px;
+  --bg:#121212;--bg2:#1c1c1e;--bg3:#2c2c2e;
+  --text:#f0ede8;--text2:#a8a4a0;--text3:#706c68;
+  --border:#2a2a2c;--border2:#3c3c3e;
+  --blue:#5B8DEF;--blue-soft:rgba(91,141,239,0.12);
+  --purple:#A67BD4;--purple-soft:rgba(166,123,212,0.12);
+  --green:#6AAA64;--yellow:#C9B458;--gray-w:#3a3a3c;
+  --mint:#40C9A2;--mint-soft:rgba(64,201,162,0.12);
+  --rose:#E8507A;--pink:#D4749A;
+  --gold:#D4A564;
+  --cat-yellow:#F0D24A;--cat-green:#78B159;--cat-blue:#8FB8E8;--cat-purple:#B07CCF;
+  --radius:14px;
 }
 html{-webkit-text-size-adjust:100%}
-body{font-family:'Libre Franklin',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{
+  font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);
+  min-height:100vh;min-height:100dvh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.app{max-width:500px;margin:0 auto;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.view{display:none;flex:1;flex-direction:column}
+.view.active{display:flex}
 
-/* ══════════ APP SHELL ══════════ */
-.app{max-width:480px;margin:0 auto;min-height:100vh;min-height:100dvh;position:relative;display:flex;flex-direction:column}
-.view{display:none;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.view.active{display:flex;flex-direction:column}
-
-/* ══════════ TOP BAR ══════════ */
 .topbar{
   display:flex;align-items:center;justify-content:center;
   padding:14px 16px;position:sticky;top:0;z-index:50;
-  background:rgba(18,18,20,0.92);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);min-height:52px;
+  background:rgba(18,18,18,0.92);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);min-height:54px;
 }
-.topbar .logo{
-  font-family:'Noto Serif',serif;font-weight:700;font-size:16px;
-  letter-spacing:0.02em;display:flex;align-items:center;gap:8px;
+.topbar-logo{
+  font-family:'Fraunces',serif;font-weight:700;font-size:17px;
+  display:flex;align-items:center;gap:8px;letter-spacing:-0.01em;
 }
-.topbar .logo .t-icon{font-family:'Noto Serif',serif;font-weight:700;font-size:22px}
-.topbar .divider{width:1px;height:18px;background:var(--text3);margin:0 2px}
+.topbar-logo .t-mark{font-family:'Fraunces',serif;font-weight:800;font-size:26px;font-style:italic;line-height:1}
+.topbar-logo .t-pipe{width:1.5px;height:20px;background:var(--text3);border-radius:1px}
 .back-btn{
   position:absolute;left:12px;top:50%;transform:translateY(-50%);
-  background:none;border:none;color:var(--text);font-size:24px;
-  cursor:pointer;padding:4px 8px;display:flex;align-items:center;
-  font-family:'Libre Franklin',sans-serif;
+  background:none;border:none;color:var(--text);cursor:pointer;padding:6px 10px;display:flex;align-items:center;
 }
-.back-btn:hover{color:white}
+.back-btn svg{width:20px;height:20px}
 
-/* ══════════ BOTTOM TAB BAR ══════════ */
-.tab-bar{
-  display:flex;justify-content:space-around;align-items:center;
-  padding:8px 0 max(8px,env(safe-area-inset-bottom));
-  border-top:1px solid var(--border);background:var(--bg);
-  position:sticky;bottom:0;z-index:50;
-}
-.tab{
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  font-size:10px;font-weight:500;color:var(--text3);
-  cursor:pointer;padding:4px 16px;border:none;background:none;
-}
-.tab.active{color:var(--text)}
-.tab .tab-icon{font-size:20px}
+.home-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 16px 40px}
+.home-date{font-family:'Fraunces',serif;font-size:14px;color:var(--text3);font-weight:400;letter-spacing:0.03em;margin-bottom:20px;text-align:center}
 
-/* ══════════ HOME VIEW ══════════ */
-.home-scroll{flex:1;overflow-y:auto;padding:0 16px 20px}
 .game-card{
-  border-radius:var(--card-radius);padding:20px;
-  margin-bottom:12px;cursor:pointer;
-  transition:transform 0.15s ease,box-shadow 0.15s ease;
-  position:relative;overflow:hidden;
+  border-radius:var(--radius);padding:22px 20px;margin-bottom:14px;
+  cursor:pointer;position:relative;overflow:hidden;
   display:flex;justify-content:space-between;align-items:center;
+  transition:transform 0.12s ease;
 }
-.game-card:active{transform:scale(0.98)}
-.game-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.3)}
-.game-card .card-left{flex:1;min-width:0}
-.game-card .card-title{
-  font-family:'Noto Serif',serif;font-size:22px;font-weight:700;
-  line-height:1.2;margin-bottom:4px;
-}
-.game-card .card-desc{font-size:13px;opacity:0.75;line-height:1.4;margin-bottom:12px}
-.game-card .card-meta{font-size:12px;font-weight:600;opacity:0.6}
-.game-card .card-icon{
-  width:64px;height:64px;border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;margin-left:16px;flex-shrink:0;
-  background:rgba(0,0,0,0.15);
-}
-.game-card .card-badge{
-  position:absolute;top:12px;right:12px;
-  background:rgba(0,0,0,0.25);border-radius:20px;
-  padding:3px 10px;font-size:10px;font-weight:700;
-  letter-spacing:0.05em;text-transform:uppercase;
-}
+.game-card:active{transform:scale(0.975)}
+.gc-left{flex:1;min-width:0}
+.gc-title{font-family:'Fraunces',serif;font-size:24px;font-weight:700;line-height:1.15;margin-bottom:4px}
+.gc-desc{font-size:13px;font-weight:400;opacity:0.7;line-height:1.4;margin-bottom:10px}
+.gc-meta{font-size:11px;font-weight:600;opacity:0.55;text-transform:uppercase;letter-spacing:0.06em}
+.gc-icon{width:72px;height:72px;border-radius:14px;margin-left:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.12);overflow:hidden}
+.gc-badge{position:absolute;top:10px;right:12px;border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;background:rgba(0,0,0,0.18)}
 
-/* Card colors */
-.card-mini{background:var(--blue);color:#fff}
-.card-conn{background:var(--purple);color:#1a1a1e}
-.card-wordle{background:var(--bg3);color:var(--text);border:1px solid var(--border2)}
-.card-strands{background:var(--mint);color:#1a1a1e}
+.card-mini{background:#5B8DEF;color:#fff}
+.card-conn{background:#B07CCF;color:#fff}
+.card-wordle{background:#E8E4DF;color:#1a1a1a}
+.card-strands{background:#40C9A2;color:#1a1a1a}
+.card-wordle .gc-icon{background:rgba(0,0,0,0.08)}
+.card-strands .gc-icon{background:rgba(0,0,0,0.08)}
 
-.card-mini .card-icon{background:rgba(255,255,255,0.2)}
-.card-conn .card-icon{background:rgba(0,0,0,0.1)}
-.card-wordle .card-icon{background:var(--green-w);color:white}
-.card-strands .card-icon{background:rgba(0,0,0,0.1)}
+.game-view{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 32px}
+.game-intro{text-align:center;padding:16px 0 20px}
+.game-intro h2{font-family:'Fraunces',serif;font-size:30px;font-weight:700;line-height:1.1;margin-bottom:4px}
+.game-intro .gi-sub{font-size:14px;color:var(--text2);margin-top:2px}
+.game-intro .gi-date{font-size:12px;color:var(--text3);font-weight:500;margin-top:2px}
 
-/* Completed state */
-.game-card.completed .card-badge{background:rgba(0,0,0,0.3)}
-
-/* Section labels */
-.section-label{
-  font-size:12px;font-weight:700;color:var(--text3);
-  text-transform:uppercase;letter-spacing:0.1em;
-  padding:20px 0 10px;
-}
-
-/* ══════════ GAME VIEW COMMON ══════════ */
-.game-view{padding:0 16px 24px}
-.game-view .game-intro{
-  text-align:center;padding:16px 0 20px;
-}
-.game-view .game-intro h2{
-  font-family:'Noto Serif',serif;font-size:28px;font-weight:700;margin-bottom:4px;
-}
-.game-view .game-intro .gi-sub{font-size:14px;color:var(--text2);margin-bottom:2px}
-.game-view .game-intro .gi-date{font-size:12px;color:var(--text3);font-weight:500}
-
-/* ══════════ COMPLETION MODAL ══════════ */
-.modal-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,0.7);z-index:200;
-  align-items:center;justify-content:center;
-  padding:20px;
-}
-.modal-overlay.visible{display:flex}
-.modal-card{
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:16px;padding:32px 24px;text-align:center;
-  max-width:340px;width:100%;animation:modalIn 0.3s ease;
-}
-@keyframes modalIn{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
-.modal-card .modal-emoji{font-size:40px;margin-bottom:12px}
-.modal-card h3{font-family:'Noto Serif',serif;font-size:22px;margin-bottom:8px}
-.modal-card .modal-msg{font-size:14px;color:var(--text2);margin-bottom:4px;line-height:1.5}
-.modal-card .keyword-reveal{
-  display:inline-block;margin:12px 0;padding:8px 20px;
-  border-radius:8px;font-size:20px;font-weight:700;
-  letter-spacing:0.1em;font-family:'Libre Franklin',sans-serif;
-}
-.modal-card .keyword-reveal.mini-kw{background:rgba(92,164,232,0.15);color:var(--blue)}
-.modal-card .keyword-reveal.conn-kw{background:rgba(184,169,212,0.15);color:var(--purple)}
-.modal-card .keyword-reveal.wordle-kw{background:rgba(107,189,123,0.15);color:var(--green)}
-.modal-card .keyword-reveal.strands-kw{background:rgba(126,201,177,0.15);color:var(--mint)}
-.modal-btn{
-  margin-top:16px;padding:10px 28px;border-radius:24px;
-  border:none;background:var(--text);color:var(--bg);
-  font-family:'Libre Franklin',sans-serif;font-size:14px;
-  font-weight:600;cursor:pointer;transition:opacity 0.2s;
-}
-.modal-btn:hover{opacity:0.85}
-
-/* ══════════ MINI CROSSWORD ══════════ */
+/* MINI */
 .mini-poem{
-  font-family:'Noto Serif',serif;font-style:italic;
-  font-size:15px;line-height:1.9;color:var(--text2);
-  text-align:center;margin:0 0 20px;padding:16px;
-  border:1px solid var(--border);border-radius:10px;
-  background:var(--bg2);
+  font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+  font-size:15px;line-height:2;color:var(--text2);
+  text-align:center;margin:0 auto 24px;padding:20px;max-width:340px;
+  border:1px solid var(--border);border-radius:12px;background:var(--bg2);
 }
-.cw-container{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
-.cw-grid-wrap{position:relative}
+.cw-wrap{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+.cw-grid-box{position:relative}
 .cw-grid{display:inline-grid;gap:2px}
-.cw-cell{
-  width:52px;height:52px;display:flex;align-items:center;justify-content:center;
-  font-size:24px;font-weight:600;text-transform:uppercase;
-  border-radius:3px;position:relative;transition:all 0.15s;
-  font-family:'Libre Franklin',sans-serif;
-}
-.cw-cell.black{background:transparent}
+.cw-cell{width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;text-transform:uppercase;border-radius:3px;position:relative;transition:all 0.12s}
+.cw-cell.black{background:var(--bg)}
 .cw-cell.letter{background:var(--bg3);border:2px solid var(--border2);cursor:pointer}
 .cw-cell.letter:hover{border-color:var(--text3)}
-.cw-cell.letter.selected{border-color:var(--blue);background:rgba(92,164,232,0.12)}
-.cw-cell.letter.in-word{background:rgba(92,164,232,0.06);border-color:rgba(92,164,232,0.3)}
-.cw-cell.letter.correct{background:var(--green);border-color:var(--green);color:white}
-.cw-cell.letter.keyword-cell{background:var(--gold);border-color:var(--gold);color:#1a1a1e}
-.cw-cell .cell-num{position:absolute;top:2px;left:4px;font-size:10px;font-weight:500;color:var(--text3)}
-.cw-cell .cell-letter{font-size:24px}
-.cw-hidden-input{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
-.cw-clues{flex:1;min-width:200px;max-width:260px}
-.cw-clues h4{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.cw-cell.letter.selected{border-color:var(--blue);background:var(--blue-soft)}
+.cw-cell.letter.in-word{background:rgba(91,141,239,0.06);border-color:rgba(91,141,239,0.25)}
+.cw-cell.letter.correct{background:var(--green);border-color:var(--green);color:#fff;transition:all 0.3s}
+.cw-cell.letter.keyword-cell{background:var(--gold);border-color:var(--gold);color:#1a1a1a;transition:all 0.3s}
+.cw-cell .cell-num{position:absolute;top:2px;left:4px;font-size:10px;font-weight:500;color:var(--text3);font-family:'Outfit',sans-serif}
+.cw-cell .cell-letter{font-size:22px}
+.cw-hidden-input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.cw-clues{flex:1;min-width:190px;max-width:260px}
+.cw-clues h4{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
 .cw-clues h4:not(:first-child){margin-top:14px}
-.cw-clue{
-  font-size:14px;color:var(--text2);padding:6px 0;
-  border-bottom:1px solid var(--border);cursor:pointer;
-  transition:color 0.15s;display:flex;gap:6px;
-}
+.cw-clue{font-size:14px;color:var(--text2);padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer;display:flex;gap:6px;transition:color 0.12s}
 .cw-clue:hover{color:var(--text)}
 .cw-clue.active-clue{color:var(--blue)}
-.cw-clue.solved-clue{color:var(--text3);text-decoration:line-through;opacity:0.5}
-.cw-clue .clue-num{font-weight:700;min-width:16px}
+.cw-clue .cn{font-weight:700;min-width:18px}
 
-/* ══════════ CONNECTIONS ══════════ */
-.conn-board{padding:0 4px}
-.conn-results{margin-bottom:8px}
-.conn-result-row{
-  padding:14px 16px;border-radius:10px;margin-bottom:6px;
-  text-align:center;animation:fadeIn 0.3s ease;
-}
-.conn-result-row h5{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px}
-.conn-result-row p{font-size:13px;opacity:0.8}
-.conn-result-row.cat-0{background:#f9df6d;color:#1a1a1e}
-.conn-result-row.cat-1{background:#a0c35a;color:#1a1a1e}
-.conn-result-row.cat-2{background:#b0c4ef;color:#1a1a1e}
-.conn-result-row.cat-3{background:#ba81c5;color:#fff}
-
+/* CONNECTIONS */
+.conn-board{max-width:420px;margin:0 auto}
+.conn-results{margin-bottom:6px}
+.conn-result-row{padding:14px 16px;border-radius:10px;margin-bottom:6px;text-align:center;animation:fadeSlideIn 0.35s ease}
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.conn-result-row h5{font-family:'Fraunces',serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:2px}
+.conn-result-row p{font-size:12px;font-weight:500;opacity:0.75}
+.conn-result-row.cat-0{background:var(--cat-yellow);color:#1a1a1a}
+.conn-result-row.cat-1{background:var(--cat-green);color:#fff}
+.conn-result-row.cat-2{background:var(--cat-blue);color:#1a1a1a}
+.conn-result-row.cat-3{background:var(--cat-purple);color:#fff}
 .conn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
-.conn-tile{
-  background:var(--bg3);border:2px solid transparent;border-radius:8px;
-  padding:14px 6px;text-align:center;font-size:13px;font-weight:700;
-  text-transform:uppercase;letter-spacing:0.04em;cursor:pointer;
-  transition:all 0.15s;user-select:none;min-height:58px;
-  display:flex;align-items:center;justify-content:center;
-  line-height:1.2;
-}
-.conn-tile:hover:not(.matched){background:var(--border2)}
-.conn-tile.selected{background:rgba(184,169,212,0.2);border-color:var(--purple)}
-.conn-tile.matched{pointer-events:none}
-.conn-actions{display:flex;gap:10px;justify-content:center;margin:12px 0}
-.conn-action-btn{
-  padding:10px 24px;border-radius:24px;font-family:'Libre Franklin',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;
-}
-.conn-action-btn.primary{background:var(--text);color:var(--bg);border:none}
-.conn-action-btn.primary:disabled{opacity:0.3;cursor:default}
-.conn-action-btn.secondary{background:none;border:1px solid var(--border2);color:var(--text2)}
-.conn-action-btn.secondary:hover{border-color:var(--text3)}
-.conn-mistakes-bar{text-align:center;font-size:13px;color:var(--text3);margin:4px 0}
-.conn-mistakes-bar .m-dot{
-  display:inline-block;width:10px;height:10px;border-radius:50%;
-  background:var(--purple);margin:0 2px;vertical-align:middle;transition:opacity 0.3s;
-}
-.conn-mistakes-bar .m-dot.used{opacity:0.15}
+.conn-tile{background:var(--bg3);border:2px solid transparent;border-radius:8px;padding:16px 6px;text-align:center;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.03em;cursor:pointer;transition:all 0.12s;user-select:none;min-height:60px;display:flex;align-items:center;justify-content:center;line-height:1.2}
+.conn-tile:hover:not(.matched){background:var(--border2);transform:translateY(-1px)}
+.conn-tile.selected{background:rgba(176,124,207,0.2);border-color:var(--purple)}
+.conn-actions{display:flex;gap:10px;justify-content:center;margin:14px 0 4px}
+.cbtn{padding:10px 22px;border-radius:24px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.12s}
+.cbtn-primary{background:var(--text);color:var(--bg);border:none}
+.cbtn-primary:disabled{opacity:0.25;cursor:default}
+.cbtn-secondary{background:none;border:1.5px solid var(--border2);color:var(--text2)}
+.cbtn-secondary:hover{border-color:var(--text3);color:var(--text)}
+.conn-mistakes{text-align:center;font-size:13px;color:var(--text3);margin:6px 0 12px}
+.conn-mistakes .md{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--purple);margin:0 2px;vertical-align:middle;transition:opacity 0.3s}
+.conn-mistakes .md.used{opacity:0.12}
 
-/* ══════════ WORDLE ══════════ */
+/* WORDLE */
 .wordle-board{display:flex;flex-direction:column;align-items:center;gap:5px;margin:16px 0}
 .wordle-row{display:flex;gap:5px}
-.w-cell{
-  width:56px;height:56px;border:2px solid var(--border2);border-radius:3px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:700;text-transform:uppercase;
-  font-family:'Libre Franklin',sans-serif;transition:border-color 0.1s;
-}
-.w-cell.filled{border-color:var(--text3);animation:cellPop 0.08s ease}
-@keyframes cellPop{50%{transform:scale(1.05)}}
-.w-cell.correct{background:var(--green-w);border-color:var(--green-w);color:white}
-.w-cell.present{background:var(--yellow-w);border-color:var(--yellow-w);color:white}
-.w-cell.absent{background:var(--gray-w);border-color:var(--gray-w);color:#666}
-.w-cell.reveal{animation:cellFlip 0.4s ease}
-@keyframes cellFlip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
-.keyboard{display:flex;flex-direction:column;align-items:center;gap:5px;margin:12px 0;padding:0 2px}
-.kb-row{display:flex;gap:4px}
-.kb-key{
-  min-width:32px;height:48px;border:none;border-radius:5px;
-  background:var(--bg3);color:var(--text);font-family:'Libre Franklin',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;padding:0 6px;
-  display:flex;align-items:center;justify-content:center;
-  text-transform:uppercase;transition:background 0.15s;
-}
+.w-cell{width:58px;height:58px;border:2px solid var(--border2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:600;text-transform:uppercase;transition:border-color 0.1s}
+.w-cell.filled{border-color:var(--text3);animation:wpop 0.08s ease}
+@keyframes wpop{50%{transform:scale(1.06)}}
+.w-cell.correct{background:var(--green);border-color:var(--green);color:#fff}
+.w-cell.present{background:var(--yellow);border-color:var(--yellow);color:#fff}
+.w-cell.absent{background:var(--gray-w);border-color:var(--gray-w);color:#555}
+.w-cell.reveal{animation:wflip 0.4s ease}
+@keyframes wflip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
+.keyboard{display:flex;flex-direction:column;align-items:center;gap:5px;margin:14px 0;padding:0 2px}
+.kb-row{display:flex;gap:5px}
+.kb-key{min-width:33px;height:50px;border:none;border-radius:5px;background:var(--bg3);color:var(--text);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;padding:0 6px;display:flex;align-items:center;justify-content:center;text-transform:uppercase;transition:background 0.12s}
 .kb-key:hover{background:var(--border2)}
-.kb-key.wide{min-width:52px;font-size:11px}
-.kb-key.correct{background:var(--green-w);color:white}
-.kb-key.present{background:var(--yellow-w);color:white}
-.kb-key.absent{background:#1a1a1c;color:#444}
+.kb-key.wide{min-width:54px;font-size:11px;letter-spacing:0.02em}
+.kb-key.correct{background:var(--green);color:#fff}
+.kb-key.present{background:var(--yellow);color:#fff}
+.kb-key.absent{background:#1a1a1c;color:#3a3a3a}
 
-/* ══════════ STRANDS ══════════ */
-.strands-theme{
-  text-align:center;font-family:'Noto Serif',serif;
-  font-size:20px;font-style:italic;color:var(--mint);
-  margin:8px 0 4px;
-}
+/* STRANDS */
+.strands-theme{text-align:center;font-family:'Fraunces',serif;font-size:20px;font-style:italic;font-weight:600;color:var(--mint);margin:8px 0 4px}
 .strands-hint{text-align:center;font-size:13px;color:var(--text3);margin-bottom:16px}
 .strands-found{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px;min-height:28px}
-.strand-tag{
-  padding:4px 12px;border-radius:14px;font-size:12px;font-weight:700;
-  text-transform:uppercase;letter-spacing:0.05em;
-}
-.strand-tag.found{background:var(--mint);color:#1a1a1e}
-.strand-tag.found.spangram{background:var(--gold);color:#1a1a1e}
-.strand-tag.pending{background:var(--bg3);color:var(--text3)}
-.strands-grid-wrap{text-align:center;margin:0 auto;width:fit-content;touch-action:none}
-.strands-grid{display:inline-grid;grid-template-columns:repeat(6,48px);gap:3px}
-.sg-cell{
-  width:48px;height:48px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:600;text-transform:uppercase;
-  background:var(--bg3);cursor:pointer;transition:all 0.15s;
-  touch-action:none;user-select:none;
-  font-family:'Libre Franklin',sans-serif;
-}
+.stag{padding:5px 12px;border-radius:14px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em}
+.stag.found{background:var(--mint);color:#1a1a1a}
+.stag.found.spangram{background:var(--gold);color:#1a1a1a}
+.stag.pending{background:var(--bg3);color:var(--text3)}
+.sg-wrap{text-align:center;margin:0 auto;width:fit-content;touch-action:none}
+.sg-grid{display:inline-grid;grid-template-columns:repeat(6,48px);gap:4px}
+.sg-cell{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:600;text-transform:uppercase;background:var(--bg3);cursor:pointer;transition:all 0.15s;touch-action:none;user-select:none}
 .sg-cell:hover:not(.found){background:var(--border2)}
-.sg-cell.selecting{background:rgba(126,201,177,0.25);box-shadow:0 0 0 2px var(--mint)}
-.sg-cell.found{background:var(--mint);color:#1a1a1e;cursor:default}
-.sg-cell.found.spangram{background:var(--gold);color:#1a1a1e}
+.sg-cell.selecting{background:rgba(64,201,162,0.2);box-shadow:0 0 0 2px var(--mint)}
+.sg-cell.found{background:var(--mint);color:#1a1a1a;cursor:default}
+.sg-cell.found.spangram{background:var(--gold);color:#1a1a1a}
 .strands-actions{display:flex;gap:10px;justify-content:center;margin:16px 0}
-.strand-btn{
-  padding:10px 24px;border-radius:24px;font-family:'Libre Franklin',sans-serif;
-  font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s;
-}
-.strand-btn.primary{background:var(--text);color:var(--bg);border:none}
-.strand-btn.secondary{background:none;border:1px solid var(--border2);color:var(--text2)}
+.sbtn{padding:10px 24px;border-radius:24px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.12s}
+.sbtn-p{background:var(--text);color:var(--bg);border:none}
+.sbtn-s{background:none;border:1.5px solid var(--border2);color:var(--text2)}
 
-/* ══════════ SECRET PHRASE ══════════ */
-.secret-section{padding:0 16px 40px}
-.secret-card{
-  background:var(--bg2);border:1px solid var(--border2);
-  border-radius:16px;padding:28px 20px;text-align:center;
-}
-.secret-card h3{font-family:'Noto Serif',serif;font-size:22px;margin-bottom:12px}
+/* SECRET / REVEAL */
+.secret-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 20px;text-align:center}
+.secret-card h3{font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-bottom:12px}
 .secret-locked{color:var(--text3);font-size:14px;padding:20px 0}
-.secret-locked .lock{font-size:36px;margin-bottom:8px;display:block;opacity:0.3}
+.secret-locked .lock{font-size:36px;display:block;margin-bottom:8px;opacity:0.3}
 .secret-tokens{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0}
-.secret-token{
-  padding:8px 16px;border-radius:8px;font-size:16px;font-weight:700;
-  letter-spacing:0.08em;text-transform:uppercase;
-}
-.secret-token.t-mini{background:rgba(92,164,232,0.12);color:var(--blue);border:1px solid rgba(92,164,232,0.3)}
-.secret-token.t-conn{background:rgba(184,169,212,0.12);color:var(--purple);border:1px solid rgba(184,169,212,0.3)}
-.secret-token.t-wordle{background:rgba(107,189,123,0.12);color:var(--green);border:1px solid rgba(107,189,123,0.3)}
-.secret-token.t-strands{background:rgba(126,201,177,0.12);color:var(--mint);border:1px solid rgba(126,201,177,0.3)}
-.secret-input{
-  width:100%;padding:14px;background:var(--bg3);border:2px solid var(--border2);
-  border-radius:10px;color:var(--text);font-family:'Libre Franklin',sans-serif;
-  font-size:17px;text-align:center;outline:none;transition:border-color 0.2s;
-  letter-spacing:0.02em;
-}
+.stk{padding:8px 16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+.stk-m{background:var(--blue-soft);color:var(--blue);border:1px solid rgba(91,141,239,0.25)}
+.stk-c{background:var(--purple-soft);color:var(--purple);border:1px solid rgba(166,123,212,0.25)}
+.stk-w{background:rgba(106,170,100,0.12);color:var(--green);border:1px solid rgba(106,170,100,0.25)}
+.stk-s{background:var(--mint-soft);color:var(--mint);border:1px solid rgba(64,201,162,0.25)}
+.secret-input{width:100%;padding:14px;background:var(--bg3);border:2px solid var(--border2);border-radius:10px;color:var(--text);font-family:'Outfit',sans-serif;font-size:17px;text-align:center;outline:none;transition:border-color 0.2s}
 .secret-input:focus{border-color:var(--gold)}
-.secret-input::placeholder{color:var(--text3)}
-.secret-submit{
-  margin-top:12px;padding:12px 32px;border:none;border-radius:24px;
-  background:var(--text);color:var(--bg);font-family:'Libre Franklin',sans-serif;
-  font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.15s;
-}
+.secret-input::placeholder{color:var(--text3);font-weight:400}
+.secret-submit{margin-top:12px;padding:12px 32px;border:none;border-radius:24px;background:var(--text);color:var(--bg);font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity 0.12s}
 .secret-submit:hover{opacity:0.85}
 .secret-error{color:var(--rose);font-size:13px;margin-top:8px;min-height:20px}
 
-/* ══════════ FINAL REVEAL ══════════ */
-.reveal-overlay{
-  display:none;position:fixed;inset:0;z-index:300;
-  background:rgba(0,0,0,0.9);align-items:center;justify-content:center;
-  padding:20px;
-}
+.reveal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(12,12,12,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);align-items:center;justify-content:center;padding:20px}
 .reveal-overlay.visible{display:flex}
-.reveal-content{text-align:center;animation:modalIn 0.5s ease}
-.reveal-content .r-hearts{font-size:48px;margin-bottom:16px}
-.reveal-content h2{
-  font-family:'Noto Serif',serif;font-size:32px;font-weight:700;
-  line-height:1.3;margin-bottom:8px;
-}
-.reveal-content .r-phrase{
-  font-family:'Noto Serif',serif;font-size:20px;font-style:italic;
-  color:var(--gold);margin-bottom:20px;
-}
-.reveal-content .r-msg{font-size:14px;color:var(--text2);max-width:300px;margin:0 auto;line-height:1.6}
-.reveal-close{
-  margin-top:24px;padding:10px 28px;border:1px solid var(--gold);
-  background:none;color:var(--gold);border-radius:24px;
-  font-family:'Libre Franklin',sans-serif;font-size:14px;
-  font-weight:600;cursor:pointer;transition:all 0.2s;
-}
+.reveal-content{text-align:center;animation:revealIn 0.6s ease}
+@keyframes revealIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+.reveal-content .rh{font-size:52px;margin-bottom:16px}
+.reveal-content h2{font-family:'Fraunces',serif;font-size:34px;font-weight:800;line-height:1.25;margin-bottom:8px}
+.reveal-content .rp{font-family:'Fraunces',serif;font-size:18px;font-style:italic;color:var(--gold);margin-bottom:24px}
+.reveal-content .rm{font-size:14px;color:var(--text2);max-width:300px;margin:0 auto;line-height:1.65}
+.reveal-close{margin-top:28px;padding:10px 28px;border:1.5px solid var(--gold);background:none;color:var(--gold);border-radius:24px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.15s}
 .reveal-close:hover{background:var(--gold);color:var(--bg)}
 
-/* ══════════ TOAST ══════════ */
-.toast{
-  position:fixed;top:60px;left:50%;transform:translateX(-50%);
-  padding:10px 20px;border-radius:6px;font-size:14px;font-weight:600;
-  z-index:250;background:var(--text);color:var(--bg);
-  box-shadow:0 4px 16px rgba(0,0,0,0.4);
-  animation:toastIn 0.2s ease,toastOut 0.2s ease 1.5s forwards;
-}
-@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}}
-@keyframes toastOut{to{opacity:0;transform:translateX(-50%) translateY(-10px)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.visible{display:flex}
+.modal-card{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:32px 24px;text-align:center;max-width:340px;width:100%;animation:modalPop 0.3s ease}
+@keyframes modalPop{from{transform:scale(0.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-card .me{font-size:36px;margin-bottom:10px}
+.modal-card h3{font-family:'Fraunces',serif;font-size:22px;font-weight:700;margin-bottom:6px}
+.modal-card .mm{font-size:14px;color:var(--text2);margin-bottom:4px}
+.modal-card .mkw{display:inline-block;margin:12px 0 4px;padding:8px 20px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;letter-spacing:0.1em}
+.mkw.kw-m{background:var(--blue-soft);color:var(--blue)}
+.mkw.kw-c{background:var(--purple-soft);color:var(--purple)}
+.mkw.kw-w{background:rgba(106,170,100,0.12);color:var(--green)}
+.mkw.kw-s{background:var(--mint-soft);color:var(--mint)}
+.modal-card .mkl{font-size:11px;color:var(--text3);margin-top:2px}
+.mbtn{margin-top:18px;padding:10px 28px;border-radius:24px;border:none;background:var(--text);color:var(--bg);font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;cursor:pointer}
 
-.shake{animation:shake 0.35s ease}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-
+.toast{position:fixed;top:64px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;z-index:250;background:var(--text);color:var(--bg);box-shadow:0 4px 20px rgba(0,0,0,0.5);animation:tin 0.2s ease,tout 0.25s ease 1.4s forwards}
+@keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(-10px)}}
+@keyframes tout{to{opacity:0;transform:translateX(-50%) translateY(-10px)}}
+.shake{animation:shk 0.35s ease}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .hidden{display:none!important}
-@media(max-width:380px){
-  .cw-cell{width:44px;height:44px;font-size:20px}
-  .cw-cell .cell-letter{font-size:20px}
-  .w-cell{width:48px;height:48px;font-size:24px}
-  .sg-cell{width:42px;height:42px;font-size:16px}
-  .strands-grid{grid-template-columns:repeat(6,42px)}
-  .conn-tile{padding:10px 4px;font-size:11px}
+@media(max-width:400px){
+  .cw-cell{width:46px;height:46px;font-size:20px}.cw-cell .cell-letter{font-size:20px}
+  .w-cell{width:50px;height:50px;font-size:22px}
+  .sg-cell{width:42px;height:42px;font-size:15px}.sg-grid{grid-template-columns:repeat(6,42px)}
+  .conn-tile{padding:12px 4px;font-size:11px;min-height:54px}
+  .kb-key{min-width:28px;height:44px;font-size:12px}
 }
 </style>
 </head>
 <body>
-
 <div class="app">
-  <!-- TOP BAR -->
   <div class="topbar" id="topbar">
-    <div class="logo">
-      <span class="t-icon">𝕋</span>
-      <span class="divider"></span>
-      <span>Games</span>
-    </div>
+    <div class="topbar-logo"><span class="t-mark">V</span><span class="t-pipe"></span><span>Games</span></div>
   </div>
 
-  <!-- ══════════ HOME VIEW ══════════ -->
+  <!-- HOME -->
   <div class="view active" id="view-home">
     <div class="home-scroll">
-      <div class="section-label">Today's Games</div>
+      <div class="home-date">Saturday, 14 February</div>
 
-      <div class="game-card card-mini" id="home-mini" onclick="openGame('mini')">
-        <div class="card-left">
-          <div class="card-title">The Mini</div>
-          <div class="card-desc">A bite-sized crossword.</div>
-          <div class="card-meta">Tuesday, 14 Feb</div>
+      <div class="game-card card-mini" onclick="openGame('mini')">
+        <div class="gc-left">
+          <div class="gc-title">The Mini</div>
+          <div class="gc-desc">A bite-sized crossword.</div>
+          <div class="gc-meta">Saturday, 14 Feb</div>
         </div>
-        <div class="card-icon">♡✎</div>
-        <div class="card-badge" id="badge-mini"></div>
+        <div class="gc-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="12" height="12" rx="2" fill="#fff" opacity=".9"/><rect x="18" y="4" width="12" height="12" rx="2" fill="#fff" opacity=".9"/><rect x="32" y="4" width="12" height="12" rx="2" fill="#fff" opacity=".3"/><rect x="4" y="18" width="12" height="12" rx="2" fill="#fff" opacity=".3"/><rect x="18" y="18" width="12" height="12" rx="2" fill="#fff" opacity=".9"/><rect x="32" y="18" width="12" height="12" rx="2" fill="#fff" opacity=".3"/><rect x="4" y="32" width="12" height="12" rx="2" fill="#fff" opacity=".3"/><rect x="18" y="32" width="12" height="12" rx="2" fill="#fff" opacity=".9"/><rect x="32" y="32" width="12" height="12" rx="2" fill="#fff" opacity=".9"/><path d="M24 42c0 0-10-7-10-14c0-4 4-6.5 10-2c6-4.5 10-2 10 2c0 7-10 14-10 14z" fill="#E8507A" opacity=".85"/></svg></div>
+        <div class="gc-badge" id="badge-mini"></div>
       </div>
 
-      <div class="game-card card-conn" id="home-conn" onclick="openGame('connections')">
-        <div class="card-left">
-          <div class="card-title">Connections</div>
-          <div class="card-desc">Group words that share a common thread.</div>
-          <div class="card-meta">Tuesday, 14 Feb</div>
+      <div class="game-card card-conn" onclick="openGame('connections')">
+        <div class="gc-left">
+          <div class="gc-title">Connections</div>
+          <div class="gc-desc">Group words that share a thread.</div>
+          <div class="gc-meta">Saturday, 14 Feb</div>
         </div>
-        <div class="card-icon">♡⊞</div>
-        <div class="card-badge" id="badge-conn"></div>
+        <div class="gc-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="4" y="4" width="18" height="18" rx="4" fill="#F0D24A"/><rect x="26" y="4" width="18" height="18" rx="4" fill="#78B159"/><rect x="4" y="26" width="18" height="18" rx="4" fill="#8FB8E8"/><rect x="26" y="26" width="18" height="18" rx="4" fill="#fff" opacity=".85"/><path d="M36 38c0 0-6-4.5-6-8c0-2.5 2.5-4 6-1.5c3.5-2.5 6-1 6 1.5c0 3.5-6 8-6 8z" fill="#E8507A"/></svg></div>
+        <div class="gc-badge" id="badge-conn"></div>
       </div>
 
-      <div class="game-card card-wordle" id="home-wordle" onclick="openGame('wordle')">
-        <div class="card-left">
-          <div class="card-title">Wordle</div>
-          <div class="card-desc">Guess the five-letter word in six tries.</div>
-          <div class="card-meta">Tuesday, 14 Feb</div>
+      <div class="game-card card-wordle" onclick="openGame('wordle')">
+        <div class="gc-left">
+          <div class="gc-title">Wordle</div>
+          <div class="gc-desc">Guess the five-letter word in six tries.</div>
+          <div class="gc-meta">Saturday, 14 Feb</div>
         </div>
-        <div class="card-icon">♡★</div>
-        <div class="card-badge" id="badge-wordle"></div>
+        <div class="gc-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="2" y="10" width="11" height="11" rx="2" fill="#6AAA64"/><rect x="15" y="10" width="11" height="11" rx="2" fill="#6AAA64"/><rect x="28" y="10" width="11" height="11" rx="2" fill="#C9B458"/><rect x="2" y="23" width="11" height="11" rx="2" fill="#3a3a3c"/><rect x="15" y="23" width="11" height="11" rx="2" fill="#6AAA64"/><rect x="28" y="23" width="11" height="11" rx="2" fill="#3a3a3c"/><path d="M43 18c0 0-7-5-7-9.5c0-3 3-5 7-2c4-3 7-1 7 2c0 4.5-7 9.5-7 9.5z" fill="#E8507A"/></svg></div>
+        <div class="gc-badge" id="badge-wordle"></div>
       </div>
 
-      <div class="game-card card-strands" id="home-strands" onclick="openGame('strands')">
-        <div class="card-left">
-          <div class="card-title">Strands</div>
-          <div class="card-desc">Find hidden words and uncover the theme.</div>
-          <div class="card-meta">Tuesday, 14 Feb</div>
+      <div class="game-card card-strands" onclick="openGame('strands')">
+        <div class="gc-left">
+          <div class="gc-title">Strands</div>
+          <div class="gc-desc">Find hidden words and uncover the theme.</div>
+          <div class="gc-meta">Saturday, 14 Feb</div>
         </div>
-        <div class="card-icon">♡∿</div>
-        <div class="card-badge" id="badge-strands"></div>
+        <div class="gc-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="10" cy="12" r="5" fill="rgba(0,0,0,.15)"/><circle cx="24" cy="8" r="5" fill="rgba(0,0,0,.15)"/><circle cx="38" cy="12" r="5" fill="rgba(0,0,0,.15)"/><circle cx="10" cy="26" r="5" fill="rgba(0,0,0,.15)"/><circle cx="38" cy="26" r="5" fill="rgba(0,0,0,.15)"/><path d="M10 12Q17 6 24 8Q31 6 38 12" stroke="rgba(0,0,0,.3)" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M10 12L10 26" stroke="rgba(0,0,0,.3)" stroke-width="2.5" stroke-linecap="round"/><path d="M38 12L38 26" stroke="rgba(0,0,0,.3)" stroke-width="2.5" stroke-linecap="round"/><path d="M24 34c0 0-10-7-10-12.5c0-3.5 4-5.5 10-1.5c6-4 10-2 10 1.5c0 5.5-10 12.5-10 12.5z" fill="#E8507A" opacity=".85"/></svg></div>
+        <div class="gc-badge" id="badge-strands"></div>
       </div>
 
-      <!-- SECRET PHRASE CARD (appears after all 4 done) -->
       <div id="secret-home-card" class="hidden">
-        <div class="section-label">Bonus</div>
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;padding:24px 0 10px">Bonus</div>
         <div class="secret-card">
           <h3>The Secret Phrase</h3>
-          <div id="secret-body-locked" class="secret-locked">
-            <span class="lock">🔒</span>
-            Complete all four games to unlock.
-          </div>
-          <div id="secret-body-unlocked" class="hidden">
-            <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Each game revealed a keyword. Arrange them into a phrase:</p>
+          <div id="secret-locked" class="secret-locked"><span class="lock">🔒</span>Complete all four games to unlock.</div>
+          <div id="secret-unlocked" class="hidden">
+            <p style="font-size:13px;color:var(--text2);margin-bottom:12px">Each game revealed a keyword. Arrange them:</p>
             <div class="secret-tokens" id="secret-tokens"></div>
             <input class="secret-input" id="secret-input" placeholder="Type the secret phrase..." autocomplete="off">
             <button class="secret-submit" onclick="checkSecret()">Reveal</button>
@@ -472,912 +298,216 @@ body{font-family:'Libre Franklin',sans-serif;background:var(--bg);color:var(--te
         </div>
       </div>
     </div>
-
-    <div class="tab-bar">
-      <button class="tab active"><span class="tab-icon">🏠</span>Games</button>
-      <button class="tab"><span class="tab-icon">👥</span>Friends</button>
-      <button class="tab"><span class="tab-icon">🎭</span>Me</button>
-    </div>
   </div>
 
-  <!-- ══════════ MINI VIEW ══════════ -->
-  <div class="view" id="view-mini">
-    <div class="game-view">
-      <div class="game-intro">
-        <h2>The Mini</h2>
-        <div class="gi-sub">A Valentine's crossword</div>
-        <div class="gi-date">Tuesday, 14 February</div>
+  <!-- MINI VIEW -->
+  <div class="view" id="view-mini"><div class="game-view">
+    <div class="game-intro"><h2>The Mini</h2><div class="gi-sub">A Valentine's crossword</div><div class="gi-date">Saturday, 14 February</div></div>
+    <div class="mini-poem">it comes every morning<br>sharp as new breaths, sharp as a fine point<br>needling me up from bottom to top<br>so that i can now hold all of it,<br>as endless as it is,<br>your love in me,<br>bulging at the seams</div>
+    <div class="cw-wrap">
+      <div class="cw-grid-box">
+        <div class="cw-grid" id="cw-grid" style="grid-template-columns:repeat(5,54px);grid-template-rows:repeat(5,54px)"></div>
+        <input class="cw-hidden-input" id="cw-input" maxlength="1" autocomplete="off" autocapitalize="characters" inputmode="text">
       </div>
+      <div class="cw-clues" id="cw-clues"></div>
+    </div>
+  </div></div>
 
-      <div class="mini-poem">
-        it comes every morning<br>
-        sharp as new breaths, sharp as a fine point<br>
-        needling me up from bottom to top<br>
-        so that i can now hold all of it,<br>
-        as endless as it is,<br>
-        your love in me,<br>
-        bulging at the seams
-      </div>
-
-      <div class="cw-container">
-        <div class="cw-grid-wrap">
-          <div class="cw-grid" id="cw-grid" style="grid-template-columns:repeat(5,52px);grid-template-rows:repeat(5,52px)"></div>
-          <input class="cw-hidden-input" id="cw-input" maxlength="1" autocomplete="off" autocapitalize="characters" inputmode="text">
-        </div>
-        <div class="cw-clues" id="cw-clues"></div>
+  <!-- CONNECTIONS VIEW -->
+  <div class="view" id="view-connections"><div class="game-view">
+    <div class="game-intro"><h2>Connections</h2><div class="gi-sub">Group the 16 words into 4 categories</div><div class="gi-date">Saturday, 14 February</div></div>
+    <div class="conn-board">
+      <div class="conn-results" id="conn-results"></div>
+      <div class="conn-grid" id="conn-grid"></div>
+      <div class="conn-mistakes" id="conn-mistakes">Mistakes remaining: <span class="md" id="md0"></span><span class="md" id="md1"></span><span class="md" id="md2"></span><span class="md" id="md3"></span></div>
+      <div class="conn-actions">
+        <button class="cbtn cbtn-secondary" onclick="connShuffle()">Shuffle</button>
+        <button class="cbtn cbtn-secondary" onclick="connDeselect()">Deselect</button>
+        <button class="cbtn cbtn-primary" id="conn-submit-btn" onclick="connSubmit()" disabled>Submit</button>
       </div>
     </div>
-  </div>
+  </div></div>
 
-  <!-- ══════════ CONNECTIONS VIEW ══════════ -->
-  <div class="view" id="view-connections">
-    <div class="game-view">
-      <div class="game-intro">
-        <h2>Connections</h2>
-        <div class="gi-sub">Group the 16 words into 4 sets of 4</div>
-        <div class="gi-date">Tuesday, 14 February</div>
-      </div>
-      <div class="conn-board">
-        <div class="conn-results" id="conn-results"></div>
-        <div class="conn-grid" id="conn-grid"></div>
-        <div class="conn-mistakes-bar" id="conn-mistakes-bar">
-          Mistakes remaining: 
-          <span class="m-dot" id="md-0"></span>
-          <span class="m-dot" id="md-1"></span>
-          <span class="m-dot" id="md-2"></span>
-          <span class="m-dot" id="md-3"></span>
-        </div>
-        <div class="conn-actions">
-          <button class="conn-action-btn secondary" onclick="connShuffle()">Shuffle</button>
-          <button class="conn-action-btn secondary" onclick="connDeselect()">Deselect All</button>
-          <button class="conn-action-btn primary" id="conn-submit-btn" onclick="connSubmit()" disabled>Submit</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- WORDLE VIEW -->
+  <div class="view" id="view-wordle"><div class="game-view">
+    <div class="game-intro"><h2>Wordle</h2><div class="gi-sub">Guess the word in six tries</div><div class="gi-date">Saturday, 14 February</div></div>
+    <div class="wordle-board" id="wordle-board"></div>
+    <div class="keyboard" id="keyboard"></div>
+  </div></div>
 
-  <!-- ══════════ WORDLE VIEW ══════════ -->
-  <div class="view" id="view-wordle">
-    <div class="game-view">
-      <div class="game-intro">
-        <h2>Wordle</h2>
-        <div class="gi-sub">Guess the word in six tries</div>
-        <div class="gi-date">Tuesday, 14 February</div>
-      </div>
-      <div class="wordle-board" id="wordle-board"></div>
-      <div class="keyboard" id="keyboard"></div>
+  <!-- STRANDS VIEW -->
+  <div class="view" id="view-strands"><div class="game-view">
+    <div class="game-intro"><h2>Strands</h2><div class="gi-sub">Find hidden words in the grid</div><div class="gi-date">Saturday, 14 February</div></div>
+    <div class="strands-theme">"Matters of the Heart"</div>
+    <div class="strands-hint">Find 6 words. Drag or tap adjacent letters.</div>
+    <div class="strands-found" id="strands-found"></div>
+    <div class="sg-wrap"><div class="sg-grid" id="sg-grid"></div></div>
+    <div class="strands-actions">
+      <button class="sbtn sbtn-s" onclick="strandsClear()">Clear</button>
+      <button class="sbtn sbtn-p" onclick="strandsSubmit()">Submit</button>
     </div>
-  </div>
-
-  <!-- ══════════ STRANDS VIEW ══════════ -->
-  <div class="view" id="view-strands">
-    <div class="game-view">
-      <div class="game-intro">
-        <h2>Strands</h2>
-        <div class="gi-sub">Find hidden words and uncover the theme</div>
-        <div class="gi-date">Tuesday, 14 February</div>
-      </div>
-      <div class="strands-theme">"Matters of the Heart"</div>
-      <div class="strands-hint">Find 6 hidden words. Drag or tap adjacent letters.</div>
-      <div class="strands-found" id="strands-found"></div>
-      <div class="strands-grid-wrap">
-        <div class="strands-grid" id="strands-grid"></div>
-      </div>
-      <div class="strands-actions">
-        <button class="strand-btn secondary" onclick="strandsClear()">Clear</button>
-        <button class="strand-btn primary" onclick="strandsSubmit()">Submit</button>
-      </div>
-    </div>
-  </div>
+  </div></div>
 </div>
 
-<!-- GAME COMPLETE MODAL -->
-<div class="modal-overlay" id="game-modal">
-  <div class="modal-card">
-    <div class="modal-emoji" id="modal-emoji"></div>
-    <h3 id="modal-title"></h3>
-    <div class="modal-msg" id="modal-msg"></div>
-    <div class="keyword-reveal" id="modal-keyword"></div>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">Your Valentine keyword</div>
-    <button class="modal-btn" onclick="closeModal()">Continue</button>
-  </div>
-</div>
+<div class="modal-overlay" id="game-modal"><div class="modal-card">
+  <div class="me" id="modal-emoji"></div><h3 id="modal-title"></h3><div class="mm" id="modal-msg"></div>
+  <div class="mkw" id="modal-kw"></div><div class="mkl">Your Valentine keyword</div>
+  <button class="mbtn" onclick="closeModal()">Back to Games</button>
+</div></div>
 
-<!-- FINAL REVEAL -->
-<div class="reveal-overlay" id="reveal-overlay">
-  <div class="reveal-content">
-    <div class="r-hearts">💕</div>
-    <h2>Pretty Smitten,<br>Mon Amour</h2>
-    <div class="r-phrase">~ you unlocked the phrase ~</div>
-    <div class="r-msg">Every game, every word, every letter — all leading here.</div>
-    <button class="reveal-close" onclick="document.getElementById('reveal-overlay').classList.remove('visible')">Close</button>
-  </div>
-</div>
+<div class="reveal-overlay" id="reveal-overlay"><div class="reveal-content">
+  <div class="rh">💕</div><h2>Pretty Smitten,<br>Mon Amour</h2>
+  <div class="rp">~ you unlocked the phrase ~</div>
+  <div class="rm">Every game, every word, every letter — all leading here.</div>
+  <button class="reveal-close" onclick="document.getElementById('reveal-overlay').classList.remove('visible')">Close</button>
+</div></div>
 
 <script>
-// ═══════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════
-let currentView = 'home';
-
-function openGame(game) {
+let currentView='home';
+function openGame(g){
   document.getElementById('view-home').classList.remove('active');
-  document.getElementById('view-' + game).classList.add('active');
-  currentView = game;
-  
-  // Add back button
-  const topbar = document.getElementById('topbar');
-  if (!topbar.querySelector('.back-btn')) {
-    const btn = document.createElement('button');
-    btn.className = 'back-btn';
-    btn.innerHTML = '‹';
-    btn.onclick = goHome;
-    topbar.insertBefore(btn, topbar.firstChild);
+  document.getElementById('view-'+g).classList.add('active');currentView=g;
+  if(!document.querySelector('.back-btn')){
+    const b=document.createElement('button');b.className='back-btn';
+    b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>';
+    b.onclick=goHome;document.getElementById('topbar').prepend(b);
   }
-  
-  window.scrollTo(0, 0);
-  
-  if (game === 'mini') document.getElementById('cw-input').focus();
+  window.scrollTo(0,0);if(g==='mini')setTimeout(()=>document.getElementById('cw-input').focus(),100);
 }
-
-function goHome() {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-home').classList.add('active');
-  currentView = 'home';
-  
-  const btn = document.querySelector('.back-btn');
-  if (btn) btn.remove();
-  
-  window.scrollTo(0, 0);
+function goHome(){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-home').classList.add('active');currentView='home';
+  const b=document.querySelector('.back-btn');if(b)b.remove();window.scrollTo(0,0);
 }
-
-// ═══════════════════════════════════════════
-// GAME STATE
-// ═══════════════════════════════════════════
-const completed = { mini: false, connections: false, wordle: false, strands: false };
-const keywords = { mini: 'MON', connections: 'PRETTY', wordle: 'AMOUR', strands: 'SMITTEN' };
-
-function completeGame(game) {
-  completed[game] = true;
-  
-  // Update home badge
-  const badge = document.getElementById('badge-' + (game === 'connections' ? 'conn' : game));
-  badge.textContent = '✓ DONE';
-  const card = document.getElementById('home-' + (game === 'connections' ? 'conn' : game));
-  card.classList.add('completed');
-  
-  // Show modal
-  const titles = { mini: 'Mini Complete!', connections: 'Connections Complete!', wordle: 'Wordle Complete!', strands: 'Strands Complete!' };
-  const emojis = { mini: '✎', connections: '⊞', wordle: '★', strands: '∿' };
-  const msgs = { 
-    mini: 'You solved the crossword.', 
-    connections: 'All groups found!', 
-    wordle: 'You guessed it!', 
-    strands: 'All words uncovered!' 
-  };
-  const kwClass = { mini: 'mini-kw', connections: 'conn-kw', wordle: 'wordle-kw', strands: 'strands-kw' };
-  
-  document.getElementById('modal-emoji').textContent = emojis[game];
-  document.getElementById('modal-title').textContent = titles[game];
-  document.getElementById('modal-msg').textContent = msgs[game];
-  const kw = document.getElementById('modal-keyword');
-  kw.textContent = keywords[game];
-  kw.className = 'keyword-reveal ' + kwClass[game];
-  
-  setTimeout(() => {
-    document.getElementById('game-modal').classList.add('visible');
-  }, 600);
-  
-  checkAllComplete();
+const done={mini:false,connections:false,wordle:false,strands:false};
+const KW={mini:'MON',connections:'PRETTY',wordle:'AMOUR',strands:'SMITTEN'};
+function finish(game){
+  done[game]=true;
+  const bid=game==='connections'?'conn':game;
+  document.getElementById('badge-'+bid).textContent='✓ SOLVED';
+  const t={mini:'Mini Complete!',connections:'Connections Complete!',wordle:'Wordle Complete!',strands:'Strands Complete!'};
+  const e={mini:'✎',connections:'🟪',wordle:'🟩',strands:'🔗'};
+  const m={mini:'You cracked the crossword.',connections:'All groups found!',wordle:'You got the word!',strands:'All words uncovered!'};
+  const kc={mini:'kw-m',connections:'kw-c',wordle:'kw-w',strands:'kw-s'};
+  document.getElementById('modal-emoji').textContent=e[game];
+  document.getElementById('modal-title').textContent=t[game];
+  document.getElementById('modal-msg').textContent=m[game];
+  const kw=document.getElementById('modal-kw');kw.textContent=KW[game];kw.className='mkw '+kc[game];
+  setTimeout(()=>document.getElementById('game-modal').classList.add('visible'),600);
+  checkAll();
 }
-
-function closeModal() {
-  document.getElementById('game-modal').classList.remove('visible');
-}
-
-function checkAllComplete() {
-  if (completed.mini && completed.connections && completed.wordle && completed.strands) {
-    document.getElementById('secret-home-card').classList.remove('hidden');
-    document.getElementById('secret-body-locked').classList.add('hidden');
-    document.getElementById('secret-body-unlocked').classList.remove('hidden');
-    
-    const tokens = [
-      { text: 'MON', cls: 't-mini' },
-      { text: 'PRETTY', cls: 't-conn' },
-      { text: 'AMOUR', cls: 't-wordle' },
-      { text: 'SMITTEN', cls: 't-strands' }
-    ].sort(() => Math.random() - 0.5);
-    
-    const container = document.getElementById('secret-tokens');
-    container.innerHTML = '';
-    tokens.forEach(t => {
-      const span = document.createElement('span');
-      span.className = 'secret-token ' + t.cls;
-      span.textContent = t.text;
-      container.appendChild(span);
-    });
-  } else {
-    document.getElementById('secret-home-card').classList.remove('hidden');
+function closeModal(){document.getElementById('game-modal').classList.remove('visible');goHome()}
+function checkAll(){
+  document.getElementById('secret-home-card').classList.remove('hidden');
+  if(done.mini&&done.connections&&done.wordle&&done.strands){
+    document.getElementById('secret-locked').classList.add('hidden');
+    document.getElementById('secret-unlocked').classList.remove('hidden');
+    const tks=[{t:'MON',c:'stk-m'},{t:'PRETTY',c:'stk-c'},{t:'AMOUR',c:'stk-w'},{t:'SMITTEN',c:'stk-s'}].sort(()=>Math.random()-0.5);
+    const ct=document.getElementById('secret-tokens');ct.innerHTML='';
+    tks.forEach(k=>{const s=document.createElement('span');s.className='stk '+k.c;s.textContent=k.t;ct.appendChild(s)});
   }
 }
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2000)}
 
-function showToast(msg) {
-  const t = document.createElement('div');
-  t.className = 'toast';
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2000);
+/* ═══ MINI ═══ */
+const CW={size:5,
+  grid:[['P','O','I','N','T'],['E',null,null,null,'I'],['A','M','O','U','R'],['K',null,null,null,'E'],['S','E','W','E','D']],
+  nums:{'0-0':1,'0-4':2,'2-0':3,'4-0':4},
+  clues:{across:[
+    {n:1,t:'"Sharp as a fine ___"',cells:[[0,0],[0,1],[0,2],[0,3],[0,4]]},
+    {n:3,t:'Your love, en français',cells:[[2,0],[2,1],[2,2],[2,3],[2,4]]},
+    {n:4,t:'Worked needle and thread',cells:[[4,0],[4,1],[4,2],[4,3],[4,4]]}
+  ],down:[
+    {n:1,t:'They come every morning over mountains',cells:[[0,0],[1,0],[2,0],[3,0],[4,0]]},
+    {n:2,t:'Run-down after a long night',cells:[[0,4],[1,4],[2,4],[3,4],[4,4]]}
+  ]},kw:['2-1','2-2','0-3']};
+let cwSel=null,cwDir='across',cwVals={},cwClue=null;
+function initMini(){
+  const g=document.getElementById('cw-grid');g.innerHTML='';
+  for(let r=0;r<5;r++)for(let c=0;c<5;c++){
+    const cell=document.createElement('div'),k=r+'-'+c;cell.className='cw-cell';cell.dataset.key=k;
+    if(CW.grid[r][c]===null){cell.classList.add('black')}
+    else{cell.classList.add('letter');cwVals[k]='';
+      const num=CW.nums[k];if(num!==undefined){const n=document.createElement('span');n.className='cell-num';n.textContent=num;cell.appendChild(n)}
+      const lt=document.createElement('span');lt.className='cell-letter';cell.appendChild(lt);
+      cell.addEventListener('click',()=>cwClick(k));}
+    g.appendChild(cell);}
+  const cb=document.getElementById('cw-clues');cb.innerHTML='<h4>Across</h4>';
+  CW.clues.across.forEach(cl=>{const d=document.createElement('div');d.className='cw-clue';d.dataset.dir='across';d.dataset.num=cl.n;
+    d.innerHTML=`<span class="cn">${cl.n}</span>${cl.t}`;d.addEventListener('click',()=>{cwDir='across';cwSel=cl.cells[0][0]+'-'+cl.cells[0][1];cwClue=cl;cwHL();document.getElementById('cw-input').focus()});cb.appendChild(d)});
+  cb.insertAdjacentHTML('beforeend','<h4>Down</h4>');
+  CW.clues.down.forEach(cl=>{const d=document.createElement('div');d.className='cw-clue';d.dataset.dir='down';d.dataset.num=cl.n;
+    d.innerHTML=`<span class="cn">${cl.n}</span>${cl.t}`;d.addEventListener('click',()=>{cwDir='down';cwSel=cl.cells[0][0]+'-'+cl.cells[0][1];cwClue=cl;cwHL();document.getElementById('cw-input').focus()});cb.appendChild(d)});
+  const inp=document.getElementById('cw-input');
+  inp.addEventListener('input',e=>{const v=(e.target.value||'').toUpperCase().replace(/[^A-Z]/g,'');if(v&&cwSel){cwVals[cwSel]=v[v.length-1];cwDisp(cwSel);cwAdv();cwCheck()}inp.value='';});
+  inp.addEventListener('keydown',e=>{if(e.key==='Backspace'){e.preventDefault();if(cwSel){if(cwVals[cwSel]){cwVals[cwSel]='';cwDisp(cwSel)}else{cwRet();if(cwSel){cwVals[cwSel]='';cwDisp(cwSel)}}}}if(e.key==='Tab'){e.preventDefault();cwDir=cwDir==='across'?'down':'across';cwHL()}});
 }
+function cwClick(k){if(cwSel===k)cwDir=cwDir==='across'?'down':'across';cwSel=k;cwFindClue();cwHL();document.getElementById('cw-input').focus()}
+function cwFindClue(){const cls=cwDir==='across'?CW.clues.across:CW.clues.down;let f=cls.find(c=>c.cells.some(([r,cc])=>r+'-'+cc===cwSel));if(!f){cwDir=cwDir==='across'?'down':'across';f=(cwDir==='across'?CW.clues.across:CW.clues.down).find(c=>c.cells.some(([r,cc])=>r+'-'+cc===cwSel))}cwClue=f||null}
+function cwHL(){document.querySelectorAll('.cw-cell.letter').forEach(c=>c.classList.remove('selected','in-word'));document.querySelectorAll('.cw-clue').forEach(c=>c.classList.remove('active-clue'));if(!cwSel)return;document.querySelector(`.cw-cell[data-key="${cwSel}"]`).classList.add('selected');if(cwClue){cwClue.cells.forEach(([r,c])=>{const k=r+'-'+c;if(k!==cwSel)document.querySelector(`.cw-cell[data-key="${k}"]`)?.classList.add('in-word')});const ce=document.querySelector(`.cw-clue[data-dir="${cwDir}"][data-num="${cwClue.n}"]`);if(ce)ce.classList.add('active-clue')}}
+function cwDisp(k){document.querySelector(`.cw-cell[data-key="${k}"]`).querySelector('.cell-letter').textContent=cwVals[k]||''}
+function cwAdv(){if(!cwClue)return;const cs=cwClue.cells,i=cs.findIndex(([r,c])=>r+'-'+c===cwSel);if(i<cs.length-1){cwSel=cs[i+1][0]+'-'+cs[i+1][1];cwHL()}}
+function cwRet(){if(!cwClue)return;const cs=cwClue.cells,i=cs.findIndex(([r,c])=>r+'-'+c===cwSel);if(i>0){cwSel=cs[i-1][0]+'-'+cs[i-1][1];cwHL()}}
+function cwCheck(){for(let r=0;r<5;r++)for(let c=0;c<5;c++)if(CW.grid[r][c]!==null&&cwVals[r+'-'+c]!==CW.grid[r][c])return;
+  document.querySelectorAll('.cw-cell.letter').forEach(c=>{c.classList.remove('selected','in-word');c.classList.add('correct')});
+  setTimeout(()=>CW.kw.forEach(k=>{const c=document.querySelector(`.cw-cell[data-key="${k}"]`);c.classList.remove('correct');c.classList.add('keyword-cell')}),500);
+  setTimeout(()=>finish('mini'),900)}
 
-// ═══════════════════════════════════════════
-// MINI CROSSWORD (5×5)
-// ═══════════════════════════════════════════
-/*
-  Grid layout:
-  P O I N T       Across 1: POINT — "Sharp as a fine ___"
-  E . . . I       Down 1: PEAKS — "Morning ___ over the horizon"
-  A M O U R       Across 3: AMOUR — "Mon ___, in French"
-  K . . . E       Down 2: TIRED — "Weary after all that loving"
-  S E W E D       Across 4: SEWED — "Stitched up, from bottom to top"
-  
-  Down 1 (col 0): P-E-A-K-S = PEAKS
-  Down 2 (col 4): T-I-R-E-D = TIRED
-  
-  Keyword cells (MON): (0,3)=N... wait, that gives N,
-  let me use: (2,1)=M, (2,2)=O, (0,3)=N → MON
-*/
+/* ═══ CONNECTIONS ═══ */
+const CG=[
+  {name:'Sweet ___',words:['HEART','TOOTH','NOTHING','TALK'],cat:0},
+  {name:'Terms of endearment',words:['PETAL','PRETTY','HONEY','DARLING'],cat:1},
+  {name:'___ line',words:['PICKUP','PUNCH','BOTTOM','FINE'],cat:2},
+  {name:'___ Love (film)',words:['ENDLESS','CRAZY','PUPPY','TOUGH'],cat:3}];
+let cTiles=[],cSel=[],cMist=0,cSolved=new Set();
+function initConn(){cTiles=CG.flatMap(g=>g.words).sort(()=>Math.random()-0.5);renderConn()}
+function renderConn(){const g=document.getElementById('conn-grid');g.innerHTML='';cTiles.filter(w=>![...cSolved].some(g=>g.words.includes(w))).forEach(w=>{const t=document.createElement('div');t.className='conn-tile';t.textContent=w;t.dataset.word=w;if(cSel.includes(w))t.classList.add('selected');t.addEventListener('click',()=>connTog(w));g.appendChild(t)});document.getElementById('conn-submit-btn').disabled=cSel.length!==4}
+function connTog(w){if(cSel.includes(w))cSel=cSel.filter(x=>x!==w);else{if(cSel.length>=4)return;cSel.push(w)}renderConn()}
+function connDeselect(){cSel=[];renderConn()}
+function connShuffle(){cTiles.sort(()=>Math.random()-0.5);renderConn()}
+function connSubmit(){if(cSel.length!==4)return;const match=CG.find(g=>{const s=[...cSel].sort(),w=[...g.words].sort();return s.every((x,i)=>x===w[i])});
+  if(match&&!cSolved.has(match)){cSolved.add(match);cSel=[];const res=document.getElementById('conn-results'),row=document.createElement('div');row.className='conn-result-row cat-'+match.cat;row.innerHTML=`<h5>${match.name}</h5><p>${match.words.join(', ')}</p>`;res.appendChild(row);renderConn();if(cSolved.size===4)setTimeout(()=>finish('connections'),600)}
+  else{let oa=false;CG.forEach(g=>{if(cSel.filter(w=>g.words.includes(w)).length===3)oa=true});if(oa)toast('One away...');cMist++;for(let i=0;i<cMist;i++)document.getElementById('md'+i).classList.add('used');document.querySelectorAll('.conn-tile.selected').forEach(t=>{t.classList.add('shake');setTimeout(()=>t.classList.remove('shake'),400)});cSel=[];renderConn();if(cMist>=4){toast('Revealing all...');setTimeout(connReveal,800)}}}
+function connReveal(){CG.forEach(g=>{if(!cSolved.has(g)){cSolved.add(g);const res=document.getElementById('conn-results'),row=document.createElement('div');row.className='conn-result-row cat-'+g.cat;row.innerHTML=`<h5>${g.name}</h5><p>${g.words.join(', ')}</p>`;res.appendChild(row)}});renderConn();setTimeout(()=>finish('connections'),600)}
 
-const CW = {
-  size: 5,
-  grid: [
-    ['P','O','I','N','T'],
-    ['E',null,null,null,'I'],
-    ['A','M','O','U','R'],
-    ['K',null,null,null,'E'],
-    ['S','E','W','E','D']
-  ],
-  nums: { '0-0': 1, '0-4': 2, '2-0': 3, '4-0': 4 },
-  clues: {
-    across: [
-      { num: 1, text: 'Sharp as a fine ___', cells: [[0,0],[0,1],[0,2],[0,3],[0,4]] },
-      { num: 3, text: '"Mon ___" — my love, in French', cells: [[2,0],[2,1],[2,2],[2,3],[2,4]] },
-      { num: 4, text: 'Stitched up, from bottom to top', cells: [[4,0],[4,1],[4,2],[4,3],[4,4]] },
-    ],
-    down: [
-      { num: 1, text: 'Morning ___ over the horizon', cells: [[0,0],[1,0],[2,0],[3,0],[4,0]] },
-      { num: 2, text: 'Weary after all that loving', cells: [[0,4],[1,4],[2,4],[3,4],[4,4]] },
-    ]
-  },
-  keywordCells: ['2-1','2-2','0-3'] // M, O, N
-};
+/* ═══ WORDLE ═══ */
+const WA='AMOUR';let wR=0,wC=0,wDone=false,wB=[];const wKS={};
+function initWordle(){const bd=document.getElementById('wordle-board');bd.innerHTML='';for(let r=0;r<6;r++){wB[r]=[];const row=document.createElement('div');row.className='wordle-row';for(let c=0;c<5;c++){const cell=document.createElement('div');cell.className='w-cell';row.appendChild(cell);wB[r][c]=cell}bd.appendChild(row)}
+  const kl=[['Q','W','E','R','T','Y','U','I','O','P'],['A','S','D','F','G','H','J','K','L'],['ENTER','Z','X','C','V','B','N','M','⌫']];const kb=document.getElementById('keyboard');kb.innerHTML='';
+  kl.forEach(row=>{const re=document.createElement('div');re.className='kb-row';row.forEach(k=>{const b=document.createElement('button');b.className='kb-key';if(k==='ENTER'||k==='⌫')b.classList.add('wide');b.textContent=k;b.dataset.key=k;b.addEventListener('click',()=>wKey(k));re.appendChild(b)});kb.appendChild(re)});
+  document.addEventListener('keydown',e=>{if(wDone||currentView!=='wordle')return;if(e.key==='Enter')wKey('ENTER');else if(e.key==='Backspace')wKey('⌫');else if(/^[a-zA-Z]$/.test(e.key))wKey(e.key.toUpperCase())})}
+function wKey(k){if(wDone)return;if(k==='⌫'){if(wC>0){wC--;wB[wR][wC].textContent='';wB[wR][wC].classList.remove('filled')}}else if(k==='ENTER'){if(wC===5)wSubmit();else toast('Not enough letters')}else if(wC<5){wB[wR][wC].textContent=k;wB[wR][wC].classList.add('filled');wC++}}
+function wSubmit(){const guess=[];for(let c=0;c<5;c++)guess.push(wB[wR][c].textContent);const gs=guess.join(''),ans=WA.split(''),res=Array(5).fill('absent'),used=Array(5).fill(false);
+  for(let i=0;i<5;i++)if(guess[i]===ans[i]){res[i]='correct';used[i]=true}
+  for(let i=0;i<5;i++){if(res[i]==='correct')continue;for(let j=0;j<5;j++)if(!used[j]&&guess[i]===ans[j]){res[i]='present';used[j]=true;break}}
+  for(let i=0;i<5;i++){const c=wB[wR][i],d=i*180;setTimeout(()=>c.classList.add('reveal',res[i]),d);setTimeout(()=>{const l=guess[i];if(!wKS[l]||res[i]==='correct'||(res[i]==='present'&&wKS[l]!=='correct')){wKS[l]=res[i];const kb=document.querySelector(`.kb-key[data-key="${l}"]`);if(kb){kb.className='kb-key'+(l.length>1?' wide':'');kb.classList.add(res[i])}}},d+180)}
+  const won=gs===WA;setTimeout(()=>{if(won){wDone=true;finish('wordle')}else if(wR>=5){wDone=true;toast('The word was '+WA);setTimeout(()=>finish('wordle'),1200)}else{wR++;wC=0}},5*180+300)}
 
-let cwSelected = null;
-let cwDirection = 'across';
-let cwValues = {};
-let cwActiveClue = null;
+/* ═══ STRANDS ═══ */
+const SG=[['S','M','I','T','T','E'],['V','E','R','Y','L','N'],['W','I','T','H','O','D'],['A','M','I','N','G','S'],['Y','O','U','R','S','K'],['B','E','L','O','V','E']];
+const SW={'SMITTEN':{c:[[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[1,5]],sp:true},'VERY':{c:[[1,0],[1,1],[1,2],[1,3]],sp:false},'WITH':{c:[[2,0],[2,1],[2,2],[2,3]],sp:false},'AM':{c:[[3,0],[3,1]],sp:false},'I':{c:[[3,2]],sp:false},'YOU':{c:[[4,0],[4,1],[4,2]],sp:false}};
+let sSel=[],sFound=new Set(),sCF={},sDrag=false;
+function initStrands(){const g=document.getElementById('sg-grid');g.innerHTML='';for(let r=0;r<6;r++)for(let c=0;c<6;c++){const cell=document.createElement('div');cell.className='sg-cell';cell.textContent=SG[r][c];cell.dataset.r=r;cell.dataset.c=c;
+  cell.addEventListener('pointerdown',e=>{e.preventDefault();if(sCF[r+'-'+c])return;strandsClear();sDrag=true;sAdd(r,c)});
+  cell.addEventListener('pointerenter',()=>{if(sDrag)sAdd(r,c)});g.appendChild(cell)}
+  document.addEventListener('pointerup',()=>sDrag=false);sUpdateTags()}
+function sAdd(r,c){const k=r+'-'+c;if(sCF[k]||sSel.some(s=>s[0]===r&&s[1]===c))return;if(sSel.length>0){const l=sSel[sSel.length-1];if(Math.abs(r-l[0])>1||Math.abs(c-l[1])>1)return}sSel.push([r,c]);document.querySelector(`.sg-cell[data-r="${r}"][data-c="${c}"]`).classList.add('selecting')}
+function strandsClear(){sSel=[];document.querySelectorAll('.sg-cell.selecting').forEach(c=>c.classList.remove('selecting'))}
+function strandsSubmit(){if(!sSel.length)return;const w=sSel.map(([r,c])=>SG[r][c]).join('');
+  if(SW[w]&&!sFound.has(w)){const exp=SW[w].c,ss=sSel.map(([r,c])=>r+','+c).sort().join('|'),es=exp.map(([r,c])=>r+','+c).sort().join('|');
+    if(ss===es){sFound.add(w);const sp=SW[w].sp;sSel.forEach(([r,c])=>{sCF[r+'-'+c]=true;const cell=document.querySelector(`.sg-cell[data-r="${r}"][data-c="${c}"]`);cell.classList.remove('selecting');cell.classList.add('found');if(sp)cell.classList.add('spangram')});sSel=[];sUpdateTags();if(sFound.size===Object.keys(SW).length)setTimeout(()=>finish('strands'),600)}
+    else{toast('Right word, wrong path!');strandsClear()}}
+  else if(sFound.has(w)){toast('Already found!');strandsClear()}
+  else{toast('Not a word');strandsClear()}}
+function sUpdateTags(){const ct=document.getElementById('strands-found');ct.innerHTML='';Object.keys(SW).forEach(w=>{const t=document.createElement('span'),f=sFound.has(w);t.className='stag '+(f?'found':'pending')+(SW[w].sp&&f?' spangram':'');t.textContent=f?w:'?'.repeat(w.length);ct.appendChild(t)})}
 
-function initMini() {
-  const grid = document.getElementById('cw-grid');
-  grid.innerHTML = '';
-  
-  for (let r = 0; r < 5; r++) {
-    for (let c = 0; c < 5; c++) {
-      const cell = document.createElement('div');
-      const key = r + '-' + c;
-      cell.className = 'cw-cell';
-      cell.dataset.key = key;
-      
-      if (CW.grid[r][c] === null) {
-        cell.classList.add('black');
-      } else {
-        cell.classList.add('letter');
-        cwValues[key] = '';
-        
-        const num = CW.nums[key];
-        if (num !== undefined) {
-          const numEl = document.createElement('span');
-          numEl.className = 'cell-num';
-          numEl.textContent = num;
-          cell.appendChild(numEl);
-        }
-        
-        const letterEl = document.createElement('span');
-        letterEl.className = 'cell-letter';
-        cell.appendChild(letterEl);
-        
-        cell.addEventListener('click', () => cwSelectCell(key));
-      }
-      
-      grid.appendChild(cell);
-    }
-  }
-  
-  // Render clues
-  const clueBox = document.getElementById('cw-clues');
-  clueBox.innerHTML = '<h4>Across</h4>';
-  CW.clues.across.forEach(cl => {
-    const div = document.createElement('div');
-    div.className = 'cw-clue';
-    div.dataset.dir = 'across';
-    div.dataset.num = cl.num;
-    div.innerHTML = `<span class="clue-num">${cl.num}</span>${cl.text}`;
-    div.addEventListener('click', () => cwSelectClue('across', cl));
-    clueBox.appendChild(div);
-  });
-  clueBox.innerHTML += '<h4>Down</h4>';
-  CW.clues.down.forEach(cl => {
-    const div = document.createElement('div');
-    div.className = 'cw-clue';
-    div.dataset.dir = 'down';
-    div.dataset.num = cl.num;
-    div.innerHTML = `<span class="clue-num">${cl.num}</span>${cl.text}`;
-    div.addEventListener('click', () => cwSelectClue('down', cl));
-    clueBox.appendChild(div);
-  });
-  
-  // Input handling
-  const input = document.getElementById('cw-input');
-  input.addEventListener('input', (e) => {
-    const val = (e.target.value || '').toUpperCase().replace(/[^A-Z]/g, '');
-    if (val && cwSelected) {
-      cwValues[cwSelected] = val[val.length - 1];
-      cwUpdateCellDisplay(cwSelected);
-      cwAdvance();
-      cwCheckComplete();
-    }
-    input.value = '';
-  });
-  
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace') {
-      e.preventDefault();
-      if (cwSelected) {
-        if (cwValues[cwSelected]) {
-          cwValues[cwSelected] = '';
-          cwUpdateCellDisplay(cwSelected);
-        } else {
-          cwRetreat();
-          if (cwSelected) {
-            cwValues[cwSelected] = '';
-            cwUpdateCellDisplay(cwSelected);
-          }
-        }
-      }
-    } else if (e.key === 'Tab') {
-      e.preventDefault();
-      cwDirection = cwDirection === 'across' ? 'down' : 'across';
-      if (cwSelected) cwHighlightWord();
-    }
-  });
-}
+/* ═══ SECRET ═══ */
+function checkSecret(){const v=document.getElementById('secret-input').value.trim().toUpperCase().replace(/[^A-Z ]/g,'').replace(/\s+/g,' ');
+  if(v==='PRETTY SMITTEN MON AMOUR')document.getElementById('reveal-overlay').classList.add('visible');
+  else{document.getElementById('secret-error').textContent='Not quite — try rearranging the words.';document.querySelector('.secret-input').classList.add('shake');setTimeout(()=>document.querySelector('.secret-input').classList.remove('shake'),400);setTimeout(()=>document.getElementById('secret-error').textContent='',3000)}}
+document.getElementById('secret-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkSecret()});
 
-function cwSelectCell(key) {
-  if (cwSelected === key) {
-    cwDirection = cwDirection === 'across' ? 'down' : 'across';
-  }
-  cwSelected = key;
-  cwHighlightWord();
-  document.getElementById('cw-input').focus();
-}
-
-function cwSelectClue(dir, cl) {
-  cwDirection = dir;
-  const firstKey = cl.cells[0][0] + '-' + cl.cells[0][1];
-  cwSelected = firstKey;
-  cwHighlightWord();
-  document.getElementById('cw-input').focus();
-}
-
-function cwHighlightWord() {
-  document.querySelectorAll('.cw-cell.letter').forEach(c => {
-    c.classList.remove('selected', 'in-word');
-  });
-  document.querySelectorAll('.cw-clue').forEach(c => c.classList.remove('active-clue'));
-  
-  if (!cwSelected) return;
-  
-  document.querySelector(`.cw-cell[data-key="${cwSelected}"]`).classList.add('selected');
-  
-  // Find which clue this cell belongs to in current direction
-  const allClues = [...CW.clues.across, ...CW.clues.down];
-  const dirClues = cwDirection === 'across' ? CW.clues.across : CW.clues.down;
-  
-  let matchClue = null;
-  for (const cl of dirClues) {
-    if (cl.cells.some(([r,c]) => r + '-' + c === cwSelected)) {
-      matchClue = cl;
-      break;
-    }
-  }
-  
-  if (!matchClue) {
-    // Try other direction
-    cwDirection = cwDirection === 'across' ? 'down' : 'across';
-    const otherClues = cwDirection === 'across' ? CW.clues.across : CW.clues.down;
-    for (const cl of otherClues) {
-      if (cl.cells.some(([r,c]) => r + '-' + c === cwSelected)) {
-        matchClue = cl;
-        break;
-      }
-    }
-  }
-  
-  if (matchClue) {
-    cwActiveClue = matchClue;
-    matchClue.cells.forEach(([r,c]) => {
-      const k = r + '-' + c;
-      if (k !== cwSelected) {
-        document.querySelector(`.cw-cell[data-key="${k}"]`)?.classList.add('in-word');
-      }
-    });
-    
-    const clueEl = document.querySelector(`.cw-clue[data-dir="${cwDirection}"][data-num="${matchClue.num}"]`);
-    if (clueEl) clueEl.classList.add('active-clue');
-  }
-}
-
-function cwUpdateCellDisplay(key) {
-  const cell = document.querySelector(`.cw-cell[data-key="${key}"]`);
-  const letterEl = cell.querySelector('.cell-letter');
-  letterEl.textContent = cwValues[key] || '';
-}
-
-function cwAdvance() {
-  if (!cwActiveClue) return;
-  const cells = cwActiveClue.cells;
-  const idx = cells.findIndex(([r,c]) => r + '-' + c === cwSelected);
-  if (idx < cells.length - 1) {
-    const next = cells[idx + 1];
-    cwSelected = next[0] + '-' + next[1];
-    cwHighlightWord();
-  }
-}
-
-function cwRetreat() {
-  if (!cwActiveClue) return;
-  const cells = cwActiveClue.cells;
-  const idx = cells.findIndex(([r,c]) => r + '-' + c === cwSelected);
-  if (idx > 0) {
-    const prev = cells[idx - 1];
-    cwSelected = prev[0] + '-' + prev[1];
-    cwHighlightWord();
-  }
-}
-
-function cwCheckComplete() {
-  for (let r = 0; r < 5; r++) {
-    for (let c = 0; c < 5; c++) {
-      if (CW.grid[r][c] !== null) {
-        if (cwValues[r + '-' + c] !== CW.grid[r][c]) return;
-      }
-    }
-  }
-  
-  // All correct!
-  document.querySelectorAll('.cw-cell.letter').forEach(cell => {
-    cell.classList.remove('selected', 'in-word');
-    cell.classList.add('correct');
-  });
-  
-  setTimeout(() => {
-    CW.keywordCells.forEach(key => {
-      const cell = document.querySelector(`.cw-cell[data-key="${key}"]`);
-      cell.classList.remove('correct');
-      cell.classList.add('keyword-cell');
-    });
-  }, 400);
-  
-  setTimeout(() => completeGame('mini'), 800);
-}
-
-// ═══════════════════════════════════════════
-// CONNECTIONS
-// ═══════════════════════════════════════════
-/*
-  Groups:
-  Yellow (0): "Synonyms for without end" — ENDLESS, ETERNAL, FOREVER, INFINITE
-  Green  (1): "Terms of endearment"     — PETAL, PRETTY, HONEY, DARLING
-  Blue   (2): "Describes a one-liner"   — PITHY, WITTY, SHARP, CLEVER
-  Purple (3): "___ novel"               — ROMANCE, GRAPHIC, MYSTERY, HISTORICAL
-*/
-
-const CONN_GROUPS = [
-  { name: 'Synonyms for "without end"', words: ['ENDLESS','ETERNAL','FOREVER','INFINITE'], cat: 0 },
-  { name: 'Terms of endearment', words: ['PETAL','PRETTY','HONEY','DARLING'], cat: 1 },
-  { name: 'Describes a great one-liner', words: ['PITHY','WITTY','SHARP','CLEVER'], cat: 2 },
-  { name: '___ novel', words: ['ROMANCE','GRAPHIC','MYSTERY','HISTORICAL'], cat: 3 },
-];
-
-let connTiles = [];
-let connSelected = [];
-let connMistakes = 0;
-let connSolvedGroups = new Set();
-const CONN_MAX_MISTAKES = 4;
-
-function initConnections() {
-  connTiles = CONN_GROUPS.flatMap(g => g.words).sort(() => Math.random() - 0.5);
-  renderConnGrid();
-}
-
-function renderConnGrid() {
-  const grid = document.getElementById('conn-grid');
-  grid.innerHTML = '';
-  
-  connTiles.filter(w => !connSolvedGroups.has(getConnGroup(w))).forEach(word => {
-    const tile = document.createElement('div');
-    tile.className = 'conn-tile';
-    tile.textContent = word;
-    tile.dataset.word = word;
-    if (connSelected.includes(word)) tile.classList.add('selected');
-    tile.addEventListener('click', () => connToggle(word));
-    grid.appendChild(tile);
-  });
-  
-  document.getElementById('conn-submit-btn').disabled = connSelected.length !== 4;
-}
-
-function getConnGroup(word) {
-  return CONN_GROUPS.find(g => g.words.includes(word));
-}
-
-function connToggle(word) {
-  if (connSelected.includes(word)) {
-    connSelected = connSelected.filter(w => w !== word);
-  } else {
-    if (connSelected.length >= 4) return;
-    connSelected.push(word);
-  }
-  renderConnGrid();
-}
-
-function connDeselect() {
-  connSelected = [];
-  renderConnGrid();
-}
-
-function connShuffle() {
-  connTiles = connTiles.sort(() => Math.random() - 0.5);
-  renderConnGrid();
-}
-
-function connSubmit() {
-  if (connSelected.length !== 4) return;
-  
-  const match = CONN_GROUPS.find(g => {
-    const sorted1 = [...connSelected].sort();
-    const sorted2 = [...g.words].sort();
-    return sorted1.every((w, i) => w === sorted2[i]);
-  });
-  
-  if (match && !connSolvedGroups.has(match)) {
-    connSolvedGroups.add(match);
-    connSelected = [];
-    
-    // Show result row
-    const results = document.getElementById('conn-results');
-    const row = document.createElement('div');
-    row.className = 'conn-result-row cat-' + match.cat;
-    row.innerHTML = `<h5>${match.name}</h5><p>${match.words.join(', ')}</p>`;
-    results.appendChild(row);
-    
-    renderConnGrid();
-    
-    if (connSolvedGroups.size === 4) {
-      setTimeout(() => completeGame('connections'), 600);
-    }
-  } else {
-    // Check if one away
-    let oneAway = false;
-    CONN_GROUPS.forEach(g => {
-      const overlap = connSelected.filter(w => g.words.includes(w));
-      if (overlap.length === 3) oneAway = true;
-    });
-    
-    if (oneAway) showToast('One away...');
-    
-    connMistakes++;
-    for (let i = 0; i < connMistakes; i++) {
-      document.getElementById('md-' + i).classList.add('used');
-    }
-    
-    // Shake selected tiles
-    document.querySelectorAll('.conn-tile.selected').forEach(t => {
-      t.classList.add('shake');
-      setTimeout(() => t.classList.remove('shake'), 400);
-    });
-    
-    connSelected = [];
-    renderConnGrid();
-    
-    if (connMistakes >= CONN_MAX_MISTAKES) {
-      showToast('Out of guesses — revealing all');
-      setTimeout(() => connRevealAll(), 800);
-    }
-  }
-}
-
-function connRevealAll() {
-  CONN_GROUPS.forEach(g => {
-    if (!connSolvedGroups.has(g)) {
-      connSolvedGroups.add(g);
-      const results = document.getElementById('conn-results');
-      const row = document.createElement('div');
-      row.className = 'conn-result-row cat-' + g.cat;
-      row.innerHTML = `<h5>${g.name}</h5><p>${g.words.join(', ')}</p>`;
-      results.appendChild(row);
-    }
-  });
-  renderConnGrid();
-  setTimeout(() => completeGame('connections'), 600);
-}
-
-// ═══════════════════════════════════════════
-// WORDLE
-// ═══════════════════════════════════════════
-const W_ANSWER = 'AMOUR';
-const W_ROWS = 6;
-const W_COLS = 5;
-let wRow = 0, wCol = 0, wOver = false;
-let wBoard = [];
-const wKeyState = {};
-
-function initWordle() {
-  const board = document.getElementById('wordle-board');
-  board.innerHTML = '';
-  
-  for (let r = 0; r < W_ROWS; r++) {
-    wBoard[r] = [];
-    const row = document.createElement('div');
-    row.className = 'wordle-row';
-    for (let c = 0; c < W_COLS; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'w-cell';
-      cell.id = 'wc-' + r + '-' + c;
-      row.appendChild(cell);
-      wBoard[r][c] = cell;
-    }
-    board.appendChild(row);
-  }
-  
-  const kbLayout = [
-    ['Q','W','E','R','T','Y','U','I','O','P'],
-    ['A','S','D','F','G','H','J','K','L'],
-    ['ENTER','Z','X','C','V','B','N','M','⌫']
-  ];
-  
-  const kb = document.getElementById('keyboard');
-  kb.innerHTML = '';
-  kbLayout.forEach(row => {
-    const rowEl = document.createElement('div');
-    rowEl.className = 'kb-row';
-    row.forEach(key => {
-      const btn = document.createElement('button');
-      btn.className = 'kb-key';
-      if (key === 'ENTER' || key === '⌫') btn.classList.add('wide');
-      btn.textContent = key;
-      btn.dataset.key = key;
-      btn.addEventListener('click', () => wKey(key));
-      rowEl.appendChild(btn);
-    });
-    kb.appendChild(rowEl);
-  });
-  
-  document.addEventListener('keydown', (e) => {
-    if (wOver || currentView !== 'wordle') return;
-    if (e.key === 'Enter') wKey('ENTER');
-    else if (e.key === 'Backspace') wKey('⌫');
-    else if (/^[a-zA-Z]$/.test(e.key)) wKey(e.key.toUpperCase());
-  });
-}
-
-function wKey(key) {
-  if (wOver) return;
-  if (key === '⌫') {
-    if (wCol > 0) { wCol--; wBoard[wRow][wCol].textContent = ''; wBoard[wRow][wCol].classList.remove('filled'); }
-  } else if (key === 'ENTER') {
-    if (wCol === W_COLS) wSubmitGuess();
-    else showToast('Not enough letters');
-  } else if (wCol < W_COLS) {
-    wBoard[wRow][wCol].textContent = key;
-    wBoard[wRow][wCol].classList.add('filled');
-    wCol++;
-  }
-}
-
-function wSubmitGuess() {
-  const guess = [];
-  for (let c = 0; c < W_COLS; c++) guess.push(wBoard[wRow][c].textContent);
-  const guessStr = guess.join('');
-  
-  const answer = W_ANSWER.split('');
-  const result = Array(W_COLS).fill('absent');
-  const used = Array(W_COLS).fill(false);
-  
-  for (let i = 0; i < W_COLS; i++) {
-    if (guess[i] === answer[i]) { result[i] = 'correct'; used[i] = true; }
-  }
-  for (let i = 0; i < W_COLS; i++) {
-    if (result[i] === 'correct') continue;
-    for (let j = 0; j < W_COLS; j++) {
-      if (!used[j] && guess[i] === answer[j]) { result[i] = 'present'; used[j] = true; break; }
-    }
-  }
-  
-  for (let i = 0; i < W_COLS; i++) {
-    const cell = wBoard[wRow][i];
-    const delay = i * 180;
-    setTimeout(() => { cell.classList.add('reveal', result[i]); }, delay);
-    setTimeout(() => {
-      const l = guess[i];
-      if (!wKeyState[l] || result[i] === 'correct' || (result[i] === 'present' && wKeyState[l] !== 'correct')) {
-        wKeyState[l] = result[i];
-        const kb = document.querySelector(`.kb-key[data-key="${l}"]`);
-        if (kb) { kb.className = 'kb-key' + (l.length > 1 ? ' wide' : ''); kb.classList.add(result[i]); }
-      }
-    }, delay + 180);
-  }
-  
-  const won = guessStr === W_ANSWER;
-  setTimeout(() => {
-    if (won) { wOver = true; completeGame('wordle'); }
-    else if (wRow >= W_ROWS - 1) { wOver = true; showToast('The word was ' + W_ANSWER); setTimeout(() => completeGame('wordle'), 1200); }
-    else { wRow++; wCol = 0; }
-  }, W_COLS * 180 + 300);
-}
-
-// ═══════════════════════════════════════════
-// STRANDS
-// ═══════════════════════════════════════════
-const SG_GRID = [
-  ['S','M','I','T','T','E'],
-  ['V','E','R','Y','L','N'],
-  ['W','I','T','H','O','D'],
-  ['A','M','I','N','G','S'],
-  ['Y','O','U','R','S','K'],
-  ['B','E','L','O','V','E']
-];
-
-const SG_WORDS = {
-  'SMITTEN': { cells: [[0,0],[0,1],[0,2],[0,3],[0,4],[0,5],[1,5]], spangram: true },
-  'VERY':    { cells: [[1,0],[1,1],[1,2],[1,3]], spangram: false },
-  'WITH':    { cells: [[2,0],[2,1],[2,2],[2,3]], spangram: false },
-  'AM':      { cells: [[3,0],[3,1]], spangram: false },
-  'I':       { cells: [[3,2]], spangram: false },
-  'YOU':     { cells: [[4,0],[4,1],[4,2]], spangram: false },
-};
-
-let sgSelection = [];
-let sgFound = new Set();
-let sgCellFound = {};
-let sgDragging = false;
-
-function initStrands() {
-  const grid = document.getElementById('strands-grid');
-  grid.innerHTML = '';
-  
-  for (let r = 0; r < 6; r++) {
-    for (let c = 0; c < 6; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'sg-cell';
-      cell.textContent = SG_GRID[r][c];
-      cell.dataset.r = r;
-      cell.dataset.c = c;
-      cell.addEventListener('pointerdown', (e) => { e.preventDefault(); sgStartSelect(r, c); });
-      cell.addEventListener('pointerenter', () => { if (sgDragging) sgAddToSelect(r, c); });
-      grid.appendChild(cell);
-    }
-  }
-  
-  document.addEventListener('pointerup', () => { sgDragging = false; });
-  sgUpdateFound();
-}
-
-function sgStartSelect(r, c) {
-  if (sgCellFound[r + '-' + c]) return;
-  strandsClear();
-  sgDragging = true;
-  sgAddToSelect(r, c);
-}
-
-function sgAddToSelect(r, c) {
-  const key = r + '-' + c;
-  if (sgCellFound[key]) return;
-  if (sgSelection.some(s => s[0] === r && s[1] === c)) return;
-  
-  if (sgSelection.length > 0) {
-    const last = sgSelection[sgSelection.length - 1];
-    if (Math.abs(r - last[0]) > 1 || Math.abs(c - last[1]) > 1) return;
-  }
-  
-  sgSelection.push([r, c]);
-  document.querySelector(`.sg-cell[data-r="${r}"][data-c="${c}"]`).classList.add('selecting');
-}
-
-function strandsClear() {
-  sgSelection = [];
-  document.querySelectorAll('.sg-cell.selecting').forEach(c => c.classList.remove('selecting'));
-}
-
-function strandsSubmit() {
-  if (sgSelection.length === 0) return;
-  
-  const word = sgSelection.map(([r,c]) => SG_GRID[r][c]).join('');
-  
-  if (SG_WORDS[word] && !sgFound.has(word)) {
-    const expected = SG_WORDS[word].cells;
-    const selSorted = sgSelection.map(([r,c]) => r+','+c).sort().join('|');
-    const expSorted = expected.map(([r,c]) => r+','+c).sort().join('|');
-    
-    if (selSorted === expSorted) {
-      sgFound.add(word);
-      const isSpangram = SG_WORDS[word].spangram;
-      
-      sgSelection.forEach(([r,c]) => {
-        sgCellFound[r + '-' + c] = true;
-        const cell = document.querySelector(`.sg-cell[data-r="${r}"][data-c="${c}"]`);
-        cell.classList.remove('selecting');
-        cell.classList.add('found');
-        if (isSpangram) cell.classList.add('spangram');
-      });
-      
-      sgSelection = [];
-      sgUpdateFound();
-      
-      if (sgFound.size === Object.keys(SG_WORDS).length) {
-        setTimeout(() => completeGame('strands'), 600);
-      }
-    } else {
-      showToast('Right word, try a different path!');
-      strandsClear();
-    }
-  } else if (sgFound.has(word)) {
-    showToast('Already found!');
-    strandsClear();
-  } else {
-    showToast('Not a valid word');
-    strandsClear();
-  }
-}
-
-function sgUpdateFound() {
-  const container = document.getElementById('strands-found');
-  container.innerHTML = '';
-  Object.keys(SG_WORDS).forEach(w => {
-    const tag = document.createElement('span');
-    const found = sgFound.has(w);
-    tag.className = 'strand-tag ' + (found ? 'found' : 'pending') + (SG_WORDS[w].spangram && found ? ' spangram' : '');
-    tag.textContent = found ? w : '?'.repeat(w.length);
-    container.appendChild(tag);
-  });
-}
-
-// ═══════════════════════════════════════════
-// SECRET PHRASE
-// ═══════════════════════════════════════════
-function checkSecret() {
-  const input = document.getElementById('secret-input').value.trim().toUpperCase().replace(/[^A-Z ]/g, '').replace(/\s+/g, ' ');
-  
-  if (input === 'PRETTY SMITTEN MON AMOUR') {
-    document.getElementById('reveal-overlay').classList.add('visible');
-  } else {
-    document.getElementById('secret-error').textContent = 'Not quite — try rearranging the words.';
-    document.querySelector('.secret-input').classList.add('shake');
-    setTimeout(() => document.querySelector('.secret-input').classList.remove('shake'), 400);
-    setTimeout(() => document.getElementById('secret-error').textContent = '', 3000);
-  }
-}
-
-document.getElementById('secret-input').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') checkSecret();
-});
-
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-initMini();
-initConnections();
-initWordle();
-initStrands();
+initMini();initConn();initWordle();initStrands();
 </script>
 </body>
 </html>
