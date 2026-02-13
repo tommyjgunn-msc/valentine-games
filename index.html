@@ -126,7 +126,7 @@ body{
 .cw-cell.letter.keyword-cell{background:var(--gold);border-color:var(--gold);color:#1a1a1a;transition:all 0.35s}
 .cw-cell .cell-num{position:absolute;top:2px;left:4px;font-size:10px;font-weight:500;color:var(--text3);font-family:'Outfit',sans-serif}
 .cw-cell .cell-letter{font-size:22px}
-.cw-hidden-input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.cw-hidden-input{position:absolute;top:50%;left:50%;opacity:0;width:1px;height:1px;pointer-events:none;font-size:16px}
 .cw-clues{flex:1;min-width:190px;max-width:260px}
 .cw-clues h4{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px}
 .cw-clues h4:not(:first-child){margin-top:16px}
@@ -604,7 +604,7 @@ function openGame(g){
     b.onclick=goHome;document.getElementById('topbar').prepend(b);
   }
   window.scrollTo(0,0);
-  if(g==='mini')setTimeout(()=>document.getElementById('cw-input').focus(),150);
+  if(g==='mini')setTimeout(()=>document.getElementById('cw-input').focus({preventScroll:true}),150);
 }
 function goHome(){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -692,12 +692,12 @@ function initMini(){
   const cb=document.getElementById('cw-clues');cb.innerHTML='<h4>Across</h4>';
   CW.clues.across.forEach(cl=>{const d=document.createElement('div');d.className='cw-clue';d.dataset.dir='across';d.dataset.num=cl.n;
     d.innerHTML=`<span class="cn">${cl.n}</span>${cl.t}`;
-    d.addEventListener('click',()=>{cwDir='across';cwSel=cl.cells[0][0]+'-'+cl.cells[0][1];cwClue=cl;cwHL();document.getElementById('cw-input').focus()});
+    d.addEventListener('click',()=>{cwDir='across';cwSel=cl.cells[0][0]+'-'+cl.cells[0][1];cwClue=cl;cwHL();document.getElementById('cw-input').focus({preventScroll:true})});
     cb.appendChild(d)});
   cb.insertAdjacentHTML('beforeend','<h4>Down</h4>');
   CW.clues.down.forEach(cl=>{const d=document.createElement('div');d.className='cw-clue';d.dataset.dir='down';d.dataset.num=cl.n;
     d.innerHTML=`<span class="cn">${cl.n}</span>${cl.t}`;
-    d.addEventListener('click',()=>{cwDir='down';cwSel=cl.cells[0][0]+'-'+cl.cells[0][1];cwClue=cl;cwHL();document.getElementById('cw-input').focus()});
+    d.addEventListener('click',()=>{cwDir='down';cwSel=cl.cells[0][0]+'-'+cl.cells[0][1];cwClue=cl;cwHL();document.getElementById('cw-input').focus({preventScroll:true})});
     cb.appendChild(d)});
   const inp=document.getElementById('cw-input');
   inp.addEventListener('input',e=>{
@@ -707,7 +707,7 @@ function initMini(){
     if(e.key==='Backspace'){e.preventDefault();if(cwSel){if(cwVals[cwSel]){cwVals[cwSel]='';cwD(cwSel)}else{cwRet();if(cwSel){cwVals[cwSel]='';cwD(cwSel)}}}}
     if(e.key==='Tab'){e.preventDefault();cwDir=cwDir==='across'?'down':'across';cwHL()}})
 }
-function cwClick(k){if(cwSel===k)cwDir=cwDir==='across'?'down':'across';cwSel=k;cwFC();cwHL();document.getElementById('cw-input').focus()}
+function cwClick(k){if(cwSel===k)cwDir=cwDir==='across'?'down':'across';cwSel=k;cwFC();cwHL();document.getElementById('cw-input').focus({preventScroll:true})}
 function cwFC(){const cls=cwDir==='across'?CW.clues.across:CW.clues.down;let f=cls.find(c=>c.cells.some(([r,c])=>r+'-'+c===cwSel));
   if(!f){cwDir=cwDir==='across'?'down':'across';f=(cwDir==='across'?CW.clues.across:CW.clues.down).find(c=>c.cells.some(([r,c])=>r+'-'+c===cwSel))}cwClue=f||null}
 function cwHL(){
